@@ -1,4 +1,5 @@
 <script>
+  import { page } from '$app/stores';
   import { enhance } from '$lib/form';
   import { scale } from 'svelte/transition';
   import { flip } from 'svelte/animate';
@@ -31,7 +32,7 @@
 
   <form
     class="new"
-    action="/?gen={data.gen}"
+    action="/?gen={$page.url.searchParams.get('gen')}"
     method="POST"
     use:enhance={{
       result: async ({ form, response }) => {
