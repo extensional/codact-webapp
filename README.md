@@ -10,6 +10,8 @@ _Live Example: https://sveltekit-template.vercel.app_
 
 ## Developing
 
+First install pnpm: https://pnpm.io/installation
+
 Once you've installed dependencies with `pnpm install`, start a development server:
 
 ```bash
