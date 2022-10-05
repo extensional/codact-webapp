@@ -7,6 +7,14 @@
 
   /** @type {import('./$types').PageData} */
   export let data;
+
+  export let selected = "";
+
+  export function updateSelect(e){
+    console.log("EEE:",e);
+    selected = window.getSelection();
+    console.log("Selected:",selected);
+  }
 </script>
 
 <svelte:head>
@@ -16,7 +24,7 @@
 
 <div class="todos">
   <h1>Codact Generative Coding</h1>
-  <textarea class="codeView">{data.generatedCode}</textarea>
+  <textarea class="codeView" form="usrform" on:click={updateSelect} on:select={updateSelect}>{data.generatedCode}</textarea>
 
   <iframe class="render">iframe here</iframe>
 
@@ -38,6 +46,7 @@
   </div>
 
   <form
+    id="usrform"
     class="newchat"
     action="/?gen={$page.url.searchParams.get('gen')}"
     method="POST"
@@ -48,6 +57,7 @@
       }
     }}
   >
+    <input type="hidden" name="selection" value={selected} />
     <input name="text" aria-label="ask codact a question" placeholder="codact> How can I help you?" />
   </form>
   </div>
