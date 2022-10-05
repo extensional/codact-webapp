@@ -6,7 +6,7 @@
   import { goto } from '$app/navigation';
 
   /** @type {import('./$types').PageData} */
-  export let data;
+  export let data = { interactions: [] };
 
   export let selected = "";
 
