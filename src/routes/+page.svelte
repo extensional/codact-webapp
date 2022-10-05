@@ -10,28 +10,35 @@
 </script>
 
 <svelte:head>
-  <title>Todos</title>
+  <title>Codact {data.title}</title>
   <meta name="description" content="A todo list app" />
 </svelte:head>
 
 <div class="todos">
-  <h1>Todos</h1>
+  <h1>Codact Generative Coding</h1>
+  <textarea class="codeView">{data.generatedCode}</textarea>
 
-  <div class="codeView">{data.generatedCode}</div>
+  <iframe class="render">iframe here</iframe>
 
-  {#each data.todos as todo (todo.uid)}
+  <div class="chat">
+
+  <div class="history">
+  {#each data.interactions as interaction (interaction.uid)}
     <div
-      class="todo"
-      class:done={todo.done}
+      class="interaction"
+      class:done={interaction.done}
       transition:scale|local={{ start: 0.1 }}
       animate:flip={{ duration: 50 }}
     >
-    {todo.text}
+    <p> > {interaction.question}</p>
+    <p> {interaction.answer} </p>
+    <a href="/?gen={interaction.gen}">fork@{interaction.gen}</a>
     </div>
   {/each}
+  </div>
 
   <form
-    class="new"
+    class="newchat"
     action="/?gen={$page.url.searchParams.get('gen')}"
     method="POST"
     use:enhance={{
@@ -41,9 +48,9 @@
       }
     }}
   >
-    <input name="text" aria-label="Add todo" placeholder="+ tap to add a todo" />
+    <input name="text" aria-label="ask codact a question" placeholder="codact> How can I help you?" />
   </form>
-
+  </div>
 </div>
 
 <style>
@@ -62,7 +69,11 @@
     line-height: 1;
   }
 
-  .new {
+  .chat {
+    border: 1px solid #555555 !important;
+  }
+
+  .newchat {
     margin: 0 0 0.5rem 0;
   }
 
@@ -76,7 +87,7 @@
     outline: none;
   }
 
-  .new input {
+  .newchat input {
     font-size: 28px;
     width: 100%;
     padding: 0.5em 1em 0.3em 1em;
@@ -113,19 +124,10 @@
     flex: 1;
   }
 
-  .todo input {
+  .interaction input {
     flex: 1;
     padding: 0.5em 2em 0.5em 0.8em;
     border-radius: 3px;
-  }
-
-  .todo button {
-    width: 2em;
-    height: 2em;
-    border: none;
-    background-color: transparent;
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
   }
 
   button.toggle {
@@ -155,11 +157,5 @@
     right: 0;
     opacity: 0;
     background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20.5 2H3.5C2.67158 2 2 2.67157 2 3.5V20.5C2 21.3284 2.67158 22 3.5 22H20.5C21.3284 22 22 21.3284 22 20.5V3.5C22 2.67157 21.3284 2 20.5 2Z' fill='%23676778' stroke='%23676778' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M17 2V11H7.5V2H17Z' fill='white' stroke='white' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M13.5 5.5V7.5' stroke='%23676778' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M5.99844 2H18.4992' stroke='%23676778' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E%0A");
-  }
-
-  .todo input:focus + .save,
-  .save:focus {
-    transition: opacity 0.2s;
-    opacity: 1;
   }
 </style>
