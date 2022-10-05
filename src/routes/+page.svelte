@@ -15,6 +15,7 @@
     selected = window.getSelection();
     console.log("Selected:",selected);
   }
+  
 </script>
 
 <svelte:head>
