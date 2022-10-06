@@ -9,6 +9,9 @@ const config = {
     methodOverride: {
       allowed: ['PATCH', 'DELETE']
     } */
+  },
+  optimizeDeps: {
+    exclude: ["codemirror", "@codemirror/language-javascript" /* ... */],
   }
 };
 

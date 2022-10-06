@@ -1,6 +1,6 @@
 <script>
   import { page } from '$app/stores';
-  import { enhance } from '$app/forms';
+  import { enhance } from '$lib/form';
   import { scale } from 'svelte/transition';
   import { flip } from 'svelte/animate';
   import { goto } from '$app/navigation';
