@@ -2,72 +2,85 @@ import { page } from '$app/stores';
 import { error, redirect } from '@sveltejs/kit';
 import { api } from './api';
 
-/**
- * @typedef {{
- *   uid: string;
- *   created_at: Date;
- *   text: string;
- *   done: boolean;
- *   pending_delete: boolean;
- * }} Todo
- */
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+
 
 /** @type {import('./$types').PageServerLoad} */
 export const load = async ({ params, locals, url }) => {
   // locals.userid comes from src/hooks.js
   const gen = url.searchParams.get('gen');
   if (!gen || gen == "") {
-      return {
-          interactions: [{ question: "why is the world green?", 
-                           answer: "because I like it that way", 
-                           gen: "1",
-                           code : "function foo() { }"
-                         }],
-          title : "fresh"
-      };
-  }
-
-  const response = await api('GET', `codact/${gen}`);
-  
-  if (response.status === 404) {
-    // user hasn't created a todo list.
-    // start with an empty array
     return {
-      /** @type {Todo[]} */
       interactions: [],
-      generatedCode : "",
-      title : "404"
+      title: "Fresh"
     };
   }
+  try {
+    const recent = await prisma.interaction.findUnique({
+      where: {
+        gen: gen
+      },
+      include: {
+        history: true
+      }
+    });
+    if (!recent)
+      throw error(404);
 
-  if (response.status === 200) {
     return {
-      /** @type {Todo[]} */
-      interactions: await response.json(),
-      generatedCode : "here is code",
-      title : gen
+      interactions: recent.history.concat([recent]),
+      generatedCode: recent.code,
+      title: recent.gen
     };
-  }
 
-  throw error(response.status);
+  } catch (e) {
+    throw error(404);
+  }
 };
 
 /** @type {import('./$types').Actions} */
-export const actions = { default: async ({ request, locals, params, url}) => {
-  const form = await request.formData();
-  console.log("OMG:", form.get('selection'));
-  const gen = url.searchParams.get('gen');
+export const actions = {
+  default: async ({ request, locals, params, url }) => {
+    const form = await request.formData();
+    const selection = form.get('selection')?.toString() ?? "";
+    const question = form.get('question')?.toString() ?? "";
+    const gen = url.searchParams.get('gen') ?? "";
+    /*
+    await api('POST', `codact/${gen}`, {
+      text: form.get('text')
+    }); */
+    var has_gen = gen && gen != 'null' && gen != undefined && gen != null && gen != 'undefined' && gen != "";
 
-  await api('POST', `codact/${gen}`, {
-    text: form.get('text')
-  });
+    const recent = has_gen ? await prisma.interaction.findUnique({
+      where: {
+        gen: gen
+      },
+      include: {
+        history: true
+      }
+    }) : null;
 
+    const newcode = recent?.code || "";
 
-  const newgen = gen != 'null' && gen != undefined && gen != null && gen != 'undefined' ? gen + 1 : "1";
+    const newintr = await prisma.interaction.create(
+      {
+        data: {
+          question: question,
+          answer: "yeah I thought so",
+          selection: selection,
+          code: newcode,
+          history: {
+            connect: recent?.history.map(a => {return { gen : a.gen}}).concat(recent ? [{gen : recent.gen}] : []) ?? []
+          }
+        }
+      });
 
-  return {question: "why is the world yellow?", 
-          answer: "because I hate it that way", 
-          gen: newgen,
-          code: "if (true) console.log('wow')"
-  };
-}};
+    if (!newintr)
+      throw error(404);
+
+    return newintr;
+  }
+};

@@ -94,7 +94,7 @@
     >
       <input type="hidden" name="selection" value={selected} />
       <input
-        name="text"
+        name="question"
         aria-label="ask codact a question"
         placeholder="codact> How can I help you?"
       />
@@ -166,7 +166,7 @@
     filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.1));
   }
 
-  form.text {
+  form.question {
     position: relative;
     display: flex;
     align-items: center;
