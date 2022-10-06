@@ -15,10 +15,12 @@ First install pnpm: https://pnpm.io/installation
 Once you've installed dependencies with `pnpm install`, start a development server:
 
 ```bash
-pnpm run dev
+# npm run dev
 
 # or start the server and open the app in a new browser tab
-pnpm run dev -- --open
+# pnpm run dev -- --open
+# ACTUALLY
+pnpm build && pnpm run preview --open
 ```
 
 ## Building
