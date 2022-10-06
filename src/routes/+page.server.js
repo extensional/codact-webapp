@@ -52,8 +52,8 @@ export const load = async ({ params, locals, url }) => {
   throw error(response.status);
 };
 
-/** @type {import('./$types').Action} */
-export const POST = async ({ request, locals, params, url}) => {
+/** @type {import('./$types').Actions} */
+export const actions = { default: async ({ request, locals, params, url}) => {
   const form = await request.formData();
   console.log("OMG:", form.get('selection'));
   const gen = url.searchParams.get('gen');
@@ -65,4 +65,4 @@ export const POST = async ({ request, locals, params, url}) => {
 
   const newgen = gen != 'null' && gen != undefined && gen != null && gen != 'undefined' ? gen + 1 : "1";
   throw redirect(303, `?gen=${newgen}`);
-};
+}};

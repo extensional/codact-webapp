@@ -1,14 +1,21 @@
 <script>
   import { page } from '$app/stores';
-  import { enhance } from '$lib/form';
+  import { enhance } from '$app/forms';
   import { scale } from 'svelte/transition';
   import { flip } from 'svelte/animate';
   import { goto } from '$app/navigation';
+
+  import { onMount } from 'svelte';
+
+  import CodeMirror from "svelte-codemirror-editor";
+  import { javascript } from "@codemirror/lang-javascript";
 
   /** @type {import('./$types').PageData} */
   export let data = { interactions: [] };
 
   export let selected = "";
+
+  let codeview;
 
   export function updateSelect(e){
     console.log("EEE:",e);
@@ -16,6 +23,13 @@
     console.log("Selected:",selected);
   }
   
+  const options = {
+    mode: "javascript",
+    lineNumbers: true,
+    value: "oy"
+  }
+
+
 </script>
 
 <svelte:head>
@@ -25,8 +39,11 @@
 
 <div class="todos">
   <h1>Codact Generative Coding</h1>
-  <textarea class="codeView" form="usrform" on:click={updateSelect} on:select={updateSelect}>{data.generatedCode}</textarea>
-
+  
+  <dev on:click={updateSelect} on:select={updateSelect}>
+    <CodeMirror bind:this={codeview} class="codeView" {options} value={data.generatedCode} />
+  </dev>
+  
   <iframe class="render">iframe here</iframe>
 
   <div class="chat">
