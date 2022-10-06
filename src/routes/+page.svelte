@@ -1,4 +1,7 @@
 <script>
+    import { dataset_dev } from 'svelte/internal';
+
+
   import { page } from '$app/stores';
   import { enhance } from '$app/forms';
   import { goto } from '$app/navigation';
@@ -47,17 +50,17 @@
   </dev>
 
   <iframe srcdoc= "
-<html>
-<head>
-  <script>
-    {codeview}
-  </script>
-</head>
+    <html>
+    <head>
+      <script>
+        {data.interactions.at(-1)?.code}
+      </script>
+    </head>
 
-<body>
-  <canvas></canvas>
-</body>
-</html>" class="render"/>
+    <body>
+      <canvas></canvas>
+    </body>
+    </html>" class="render"/>
 
   <div class="chat">
     <div class="history">
