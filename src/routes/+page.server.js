@@ -57,15 +57,14 @@ export const actions = { default: async ({ request, locals, params, url}) => {
   const form = await request.formData();
   console.log("OMG:", form.get('selection'));
   const gen = url.searchParams.get('gen');
-/*
+
   await api('POST', `codact/${gen}`, {
     text: form.get('text')
-  }); */
+  });
 
 
   const newgen = gen != 'null' && gen != undefined && gen != null && gen != 'undefined' ? gen + 1 : "1";
 
   console.log("ZOMG:", newgen);
-  //throw redirect(303, `?gen=${newgen}`);
   return { gen : newgen};
 }};

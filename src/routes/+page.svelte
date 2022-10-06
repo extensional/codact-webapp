@@ -1,7 +1,6 @@
 <script>
   import { page } from '$app/stores';
   import { enhance } from '$app/forms';
-  //import { enhance } from '$lib/form';
   import { scale } from 'svelte/transition';
   import { flip } from 'svelte/animate';
   import { goto } from '$app/navigation';
@@ -12,15 +11,16 @@
   import { javascript } from "@codemirror/lang-javascript";
 
   /** @type {import('./$types').PageData} */
-  export let data = { interactions: [] };
+  export let data;
 
   export let selected = "";
 
   let codeview;
 
-  export function updateSelect(e){
+   // @ts-ignore
+   export function updateSelect(e){
     console.log("EEE:",e);
-    selected = window.getSelection();
+    selected = window.getSelection()?.toString() ??"";
     console.log("Selected:",selected);
   }
   
