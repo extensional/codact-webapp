@@ -1,27 +1,30 @@
 <script>
   import { page } from '$app/stores';
   import { enhance } from '$app/forms';
-  import { scale } from 'svelte/transition';
-  import { flip } from 'svelte/animate';
   import { goto } from '$app/navigation';
 
-  import CodeMirror from "svelte-codemirror-editor";
-  import { javascript } from "@codemirror/lang-javascript";
+  import Interactions from '$lib/Interactions.svelte';
+
+  import CodeMirror from 'svelte-codemirror-editor';
+  import { javascript } from '@codemirror/lang-javascript';
 
   /** @type {import('./$types').PageData} */
   export let data;
 
-  export let selected = "";
+  let gen = $page.url.searchParams.get('gen');
+
+  let selected = '';
+
+  // @ts-ignore
+  let interactions = [];
 
   let codeview;
 
-   // @ts-ignore
-   export function updateSelect(e){
-    console.log("EEE:",e);
-    selected = window.getSelection()?.toString() ??"";
-    console.log("Selected:",selected);
+  // @ts-ignore
+  export function updateSelect(e) {
+    selected = window.getSelection()?.toString() ?? '';
+    console.log('Selected:', selected);
   }
-  
 </script>
 
 <svelte:head>
@@ -31,53 +34,60 @@
 
 <div class="todos">
   <h1>Codact Generative Coding</h1>
-  
+
   <dev on:click={updateSelect} on:select={updateSelect}>
-    <CodeMirror bind:this={codeview} class="codeView" lang={javascript()} value={data.generatedCode} readonly={true} />
+    <CodeMirror
+      bind:this={codeview}
+      class="codeView"
+      lang={javascript()}
+      value={data.generatedCode}
+      readonly={true}
+    />
   </dev>
-  
+
   <iframe class="render">iframe here</iframe>
 
   <div class="chat">
+    <div class="history">
 
-  <div class="history">
-  {#each data.interactions as interaction (interaction.uid)}
-    <div
-      class="interaction"
-      class:done={interaction.done}
-      transition:scale|local={{ start: 0.1 }}
-      animate:flip={{ duration: 50 }}
-    >
-    <p> > {interaction.question}</p>
-    <p> {interaction.answer} </p>
-    <a href="/?gen={interaction.gen}">fork@{interaction.gen}</a>
+      <Interactions interactions={data.interactions}/>
+      <Interactions interactions={interactions}/>
     </div>
-  {/each}
-  </div>
 
-  <form
-    id="usrform"
-    class="newchat"
-    action="/?gen={$page.url.searchParams.get('gen')}"
-    method="POST"
-    use:enhance={
-       ({ form, data, action, cancel }) => {
-         return async ({ result, update }) => {
-            form.reset();
-            console.log("Response: ", result);
-            const newurl = `?gen=${result.data.gen}`;
-            
-            window.history.pushState(null, "", newurl);
-            update();
-            //else
-            //  goto(newurl);
+    <form
+      id="usrform"
+      class="newchat"
+      action="/?gen={gen}"
+      method="POST"
+      use:enhance={({ form, data, action, cancel }) => {
+        return async ({ result, update }) => {
+          form.reset();
+          console.log('Response: ', result);
+          const newurl = `?gen=${result.data.gen}`;
 
-         };
+          gen = result.data.gen;
+          interactions = interactions.concat([
+            {
+              question: 'I am so blue?',
+              answer: 'because of the things I do',
+              gen: result.data.gen
+            }
+          ]);
+
+          if (window.history.pushState) 
+            window.history.pushState(null, '', newurl);
+          else 
+            goto(newurl);
+        };
       }}
-  >
-    <input type="hidden" name="selection" value={selected} />
-    <input name="text" aria-label="ask codact a question" placeholder="codact> How can I help you?" />
-  </form>
+    >
+      <input type="hidden" name="selection" value={selected} />
+      <input
+        name="text"
+        aria-label="ask codact a question"
+        placeholder="codact> How can I help you?"
+      />
+    </form>
   </div>
 </div>
 
