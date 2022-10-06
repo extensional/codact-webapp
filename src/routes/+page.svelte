@@ -1,6 +1,7 @@
 <script>
   import { page } from '$app/stores';
-  import { enhance } from '$lib/form';
+  import { enhance } from '$app/forms';
+  //import { enhance } from '$lib/form';
   import { scale } from 'svelte/transition';
   import { flip } from 'svelte/animate';
   import { goto } from '$app/navigation';
@@ -61,12 +62,14 @@
     class="newchat"
     action="/?gen={$page.url.searchParams.get('gen')}"
     method="POST"
-    use:enhance={{
-      result: async ({ form, response }) => {
-        form.reset();
-        window.history.pushState(null, null, response.url);
-      }
-    }}
+    use:enhance={
+       ({ form, data, action, cancel }) => {
+         return async ({ result, update }) => {
+            form.reset();
+            console.log("Response: ", result);
+            window.history.pushState(null, null, `?gen=${result.data.gen}`);
+         };
+      }}
   >
     <input type="hidden" name="selection" value={selected} />
     <input name="text" aria-label="ask codact a question" placeholder="codact> How can I help you?" />
