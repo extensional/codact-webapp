@@ -23,13 +23,6 @@
     console.log("Selected:",selected);
   }
   
-  const options = {
-    mode: "javascript",
-    lineNumbers: true,
-    value: "oy"
-  }
-
-
 </script>
 
 <svelte:head>
@@ -41,7 +34,7 @@
   <h1>Codact Generative Coding</h1>
   
   <dev on:click={updateSelect} on:select={updateSelect}>
-    <CodeMirror bind:this={codeview} class="codeView" {options} value={data.generatedCode} />
+    <CodeMirror bind:this={codeview} class="codeView" lang={javascript()} value={data.generatedCode} readonly={true} />
   </dev>
   
   <iframe class="render">iframe here</iframe>
