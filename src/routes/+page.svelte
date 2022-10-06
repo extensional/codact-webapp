@@ -5,8 +5,6 @@
   import { flip } from 'svelte/animate';
   import { goto } from '$app/navigation';
 
-  import { onMount } from 'svelte';
-
   import CodeMirror from "svelte-codemirror-editor";
   import { javascript } from "@codemirror/lang-javascript";
 
@@ -67,7 +65,13 @@
          return async ({ result, update }) => {
             form.reset();
             console.log("Response: ", result);
-            window.history.pushState(null, null, `?gen=${result.data.gen}`);
+            const newurl = `?gen=${result.data.gen}`;
+            
+            window.history.pushState(null, "", newurl);
+            update();
+            //else
+            //  goto(newurl);
+
          };
       }}
   >

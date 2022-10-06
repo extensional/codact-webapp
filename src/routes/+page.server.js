@@ -16,7 +16,7 @@ import { api } from './api';
 export const load = async ({ params, locals, url }) => {
   // locals.userid comes from src/hooks.js
   const gen = url.searchParams.get('gen');
-  if (gen == null || gen == undefined || gen == "") {
+  if (!gen || gen == "") {
       return {
           interactions: [{ question: "why is the world green?", 
                            answer: "because I like it that way", 
