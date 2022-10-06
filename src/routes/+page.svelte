@@ -18,6 +18,7 @@
   // @ts-ignore
   let interactions = [];
 
+  let gencode = "";
   let codeview;
 
   // @ts-ignore
@@ -40,7 +41,7 @@
       bind:this={codeview}
       class="codeView"
       lang={javascript()}
-      value={data.generatedCode}
+      value={interactions.at(-1)?.code || data.interactions.at(-1)?.code}
       readonly={true}
     />
   </dev>
@@ -61,18 +62,14 @@
       method="POST"
       use:enhance={({ form, data, action, cancel }) => {
         return async ({ result, update }) => {
+          if (!result.data) 
+            return;
+
           form.reset();
-          console.log('Response: ', result);
-          const newurl = `?gen=${result.data.gen}`;
 
           gen = result.data.gen;
-          interactions = interactions.concat([
-            {
-              question: 'I am so blue?',
-              answer: 'because of the things I do',
-              gen: result.data.gen
-            }
-          ]);
+          const newurl = `?gen=${gen}`;
+          interactions = interactions.concat(result.data);
 
           if (window.history.pushState) 
             window.history.pushState(null, '', newurl);

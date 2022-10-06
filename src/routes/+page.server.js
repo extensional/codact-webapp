@@ -20,9 +20,9 @@ export const load = async ({ params, locals, url }) => {
       return {
           interactions: [{ question: "why is the world green?", 
                            answer: "because I like it that way", 
-                           gen: "1" 
+                           gen: "1",
+                           code : "function foo() { }"
                          }],
-          generatedCode : "function foo() { }",
           title : "fresh"
       };
   }
@@ -65,6 +65,9 @@ export const actions = { default: async ({ request, locals, params, url}) => {
 
   const newgen = gen != 'null' && gen != undefined && gen != null && gen != 'undefined' ? gen + 1 : "1";
 
-  console.log("ZOMG:", newgen);
-  return { gen : newgen};
+  return {question: "why is the world yellow?", 
+          answer: "because I hate it that way", 
+          gen: newgen,
+          code: "if (true) console.log('wow')"
+  };
 }};
