@@ -46,7 +46,18 @@
     />
   </dev>
 
-  <iframe class="render">iframe here</iframe>
+  <iframe srcdoc= "
+<html>
+<head>
+  <script>
+    {codeview}
+  </script>
+</head>
+
+<body>
+  <canvas></canvas>
+</body>
+</html>" class="render"/>
 
   <div class="chat">
     <div class="history">
