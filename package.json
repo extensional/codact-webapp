@@ -23,7 +23,6 @@
   },
   "type": "module",
   "dependencies": {
-    "@sveltejs/adapter-auto": "next",
     "@sveltejs/adapter-node": "next",
     "@sveltejs/kit": "next",
     "vite": "^3.1.4",
