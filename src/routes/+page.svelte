@@ -100,8 +100,8 @@
         };
       }}
     >
-      <input type="hidden" name="selectionStart" value="" />
-      <input type="hidden" name="selectionEnd" value="" />
+      <input type="hidden" name="selectionStart" value="0" />
+      <input type="hidden" name="selectionEnd" value="0" />
       <input type="hidden" name="selection" value="" />
       <input
         name="question"
