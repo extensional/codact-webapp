@@ -4,7 +4,7 @@
     "node": "16.17.1"
   },
   "scripts": {
-    "start": "node build/index.js",
+    "start": "npx prisma generate && node build/index.js",
     "dev": "vite dev",
     "build": "vite build",
     "package": "svelte-kit package",
