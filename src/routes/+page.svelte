@@ -92,7 +92,9 @@
         };
       }}
     >
-      <input type="hidden" name="selection" value={selected} />
+      <input type="hidden" name="selectionStart" value={selectionStart} />
+      <input type="hidden" name="selectionEnd" value={selectionEnd} />
+      <input type="hidden" name="selection" value="" />
       <input
         name="question"
         aria-label="ask codact a question"
