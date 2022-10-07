@@ -54,6 +54,9 @@ export const actions = {
 
     var has_gen = gen && gen != 'null' && gen != undefined && gen != null && gen != 'undefined' && gen != "";
 
+    console.log("BEGINNING: ", question);
+    console.log("gen: ", gen);
+
     const recent = has_gen ? await prisma.interaction.findUnique({
       where: {
         gen: gen
@@ -62,6 +65,8 @@ export const actions = {
         history: true
       }
     }) : null;
+
+    //console.log("recent: ", recent);
 
     /*await api('POST', `codact/${gen}`, {
       text: form.get('text')
@@ -82,6 +87,7 @@ export const actions = {
           }
         }
       });
+    //console.log("newintr: ", newintr);
 
     if (!newintr)
       throw error(404);
