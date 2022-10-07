@@ -4,6 +4,7 @@ import { api } from './api';
 
 import { PrismaClient } from '@prisma/client';
 
+
 const prisma = new PrismaClient();
 
 
@@ -45,13 +46,11 @@ export const load = async ({ params, locals, url }) => {
 export const actions = {
   default: async ({ request, locals, params, url }) => {
     const form = await request.formData();
-    const selection = form.get('selection')?.toString() ?? "";
+    const selectionStart = parseInt(form.get('selectionStart')?.toString() ?? "0");
+    const selectionEnd = parseInt(form.get('selectionEnd')?.toString() ?? "0");
     const question = form.get('question')?.toString() ?? "";
     const gen = url.searchParams.get('gen') ?? "";
-    /*
-    await api('POST', `codact/${gen}`, {
-      text: form.get('text')
-    }); */
+
     var has_gen = gen && gen != 'null' && gen != undefined && gen != null && gen != 'undefined' && gen != "";
 
     const recent = has_gen ? await prisma.interaction.findUnique({
@@ -63,6 +62,10 @@ export const actions = {
       }
     }) : null;
 
+    /*await api('POST', `codact/${gen}`, {
+      text: form.get('text')
+    });*/
+
     const newcode = recent?.code || "";
 
     const newintr = await prisma.interaction.create(
@@ -70,7 +73,8 @@ export const actions = {
         data: {
           question: question,
           answer: "yeah I thought so",
-          selection: selection,
+          selectionStart: selectionStart,
+          selectionEnd: selectionEnd,
           code: newcode,
           history: {
             connect: recent?.history.map(a => {return { gen : a.gen}}).concat(recent ? [{gen : recent.gen}] : []) ?? []

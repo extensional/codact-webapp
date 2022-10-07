@@ -16,7 +16,8 @@ model Interaction {
   stamp     Int        @default(autoincrement())
   question  String
   answer    String
-  selection String
+  selectionStart Int
+  selectionEnd   Int
   code      String
 
   history Interaction[] @relation("histories")

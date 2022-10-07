@@ -7,7 +7,7 @@
 	guarantees are made. Don't use it to organise your life.)
 */
 
-const base = 'https://api.svelte.dev';
+const base = 'https://codact.herokuapp.com';
 
 /**
  * @param {string} method
