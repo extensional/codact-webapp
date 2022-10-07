@@ -2,6 +2,8 @@
 
 <script>
 // @ts-nocheck
+  import {EditorView, keymap} from "@codemirror/view";
+  import {minimalSetup} from "codemirror";
 
   import url from "$lib/url.js";
 
@@ -40,10 +42,7 @@
   let gencode = "";
 
   // @ts-ignore
-  export function updateSelect(e) {
-    selected = window.getSelection()?.toString() ?? '';
-    console.log('Selected:', selected);
-  }
+
 
   
 
@@ -51,10 +50,25 @@
   let selectionEnd = 0;
 
   let editor;
+  let myView;
 
   onMount(() => {
     console.log("editor:", editor);
+
+    myView = new EditorView({
+      doc: "hello \n wassup",
+      extensions: [minimalSetup],
+      parent: editor
+    });
+
   });
+
+  export function updateSelect(e) {
+    selected = window.getSelection()?.toString() ?? '';
+    console.log('Selected:', selected);
+
+    console.log("wowee: ", myView.state.selection.ranges);
+  }
 
 </script>
 <svelte:head>
