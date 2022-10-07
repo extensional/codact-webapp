@@ -2,8 +2,9 @@
 
 <script>
 // @ts-nocheck
-  import {EditorView, keymap} from "@codemirror/view";
-  import {minimalSetup} from "codemirror";
+  import {EditorView, highlightActiveLine, } from "@codemirror/view";
+  import {basicSetup} from "codemirror";
+  import {EditorState, Compartment} from "@codemirror/state";
 
   import url from "$lib/url.js";
 
@@ -15,12 +16,18 @@
   import { goto } from '$app/navigation';
 
   import Interactions from '$lib/Interactions.svelte';
-  import Prism from 'svelte-prism';
-
+/*
   import CodeMirror from 'svelte-codemirror-editor';
+  <CodeMirror
+      class="codeView"
+      lang={javascript()}
+      extensions={[highlightActiveLine()]}
+      value={interactions.at(-1)?.code || data.interactions.at(-1)?.code || "function foo () = a + b;\n how is this done?"}
+      readonly={true}
+    />
+    */
   import { javascript } from '@codemirror/lang-javascript';
 
-  import { highlightActiveLine } from '@codemirror/view';
 
   /** @type {import('./$types').PageData} */
   export let data;
@@ -37,37 +44,43 @@
        interactions = [];
     if (!$url || $url.search == "")
        gen = null;
+    else
+       gen = $url.searchParams.get("gen");
   });
 
   let gencode = "";
 
-  // @ts-ignore
-
-
-  
 
   let selectionStart = 0;
   let selectionEnd = 0;
 
   let editor;
   let myView;
-
+  
   onMount(() => {
     console.log("editor:", editor);
 
+    let language = new Compartment;
     myView = new EditorView({
-      doc: "hello \n wassup",
-      extensions: [minimalSetup],
-      parent: editor
+      doc: interactions.at(-1)?.code || data.interactions.at(-1)?.code || "function foo () = a + b;\n how is this done?",
+      extensions: [basicSetup, language.of(javascript()),  EditorState.readOnly.of(true)],
+      parent: editor,
+      editable: false
     });
 
   });
 
-  export function updateSelect(e) {
-    selected = window.getSelection()?.toString() ?? '';
-    console.log('Selected:', selected);
+  $: {
+    if (myView)
+      myView.dispatch({
+        changes: {from:0, to: myView.state.doc.length, insert: interactions.at(-1)?.code || data.interactions.at(-1)?.code}
+      });
+  }
 
-    console.log("wowee: ", myView.state.selection.ranges);
+  export function updateSelect(e) {
+    const range = myView.state.selection.ranges[0] ?? 0;
+    selectionStart = range.from;
+    selectionEnd = range.to;
   }
 
 </script>
@@ -79,15 +92,7 @@
 <div class="mainarea">
   <h1>Codact Generative Coding</h1>
 
-  <dev on:click={updateSelect} on:select={updateSelect} bind:this={editor}>
-    <CodeMirror
-      class="codeView"
-      lang={javascript()}
-      extensions={[highlightActiveLine()]}
-      value={interactions.at(-1)?.code || data.interactions.at(-1)?.code || "function foo () = a + b;\n how is this done?"}
-      readonly={true}
-    />
-  </dev>
+  <dev on:click={updateSelect} on:select={updateSelect} bind:this={editor} />
 
   <div on:click={updateSelect} on:select={updateSelect}>
     <Prism language="javascript" source={interactions.at(-1)?.code || data.interactions.at(-1)?.code || "hello world;"}/>
@@ -111,11 +116,10 @@
       <Interactions interactions={data.interactions}/>
       <Interactions interactions={interactions}/>
     </div>
-
     <form
       id="usrform"
       class="newchat"
-      action="/?gen={gen}"
+      action="/?gen={gen}#"
       method="POST"
       use:enhance={({ form, data, action, cancel }) => {
         return async ({ result, update }) => {
