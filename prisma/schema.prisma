@@ -12,8 +12,8 @@ datasource db {
 
 
 model Interaction {
-  gen       String     @default(cuid()) @id
-  stamp     Int        @default(autoincrement()) //sequence())
+  gen        String     @default(cuid()) @id
+  stamp     Int        @default(autoincrement())
   question  String
   answer    String
   selection String
