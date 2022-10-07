@@ -46,6 +46,7 @@ export const load = async ({ params, locals, url }) => {
 export const actions = {
   default: async ({ request, locals, params, url }) => {
     const form = await request.formData();
+
     const selectionStart = parseInt(form.get('selectionStart')?.toString() ?? "0");
     const selectionEnd = parseInt(form.get('selectionEnd')?.toString() ?? "0");
     const question = form.get('question')?.toString() ?? "";
