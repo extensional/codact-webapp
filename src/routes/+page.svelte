@@ -1,15 +1,14 @@
-<script>
-    import { dataset_dev } from 'svelte/internal';
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css'>
 
+<script>
+  import { dataset_dev } from 'svelte/internal';
 
   import { page } from '$app/stores';
   import { enhance } from '$app/forms';
   import { goto } from '$app/navigation';
 
   import Interactions from '$lib/Interactions.svelte';
-
-  import CodeMirror from 'svelte-codemirror-editor';
-  import { javascript } from '@codemirror/lang-javascript';
+  import Prism from 'svelte-prism';
 
   /** @type {import('./$types').PageData} */
   export let data;
@@ -22,22 +21,17 @@
   let interactions = [];
 
   let gencode = "";
-  let codeview;
 
   // @ts-ignore
   export function updateSelect(e) {
     selected = window.getSelection()?.toString() ?? '';
     console.log('Selected:', selected);
   }
-</script>
 
-<svelte:head>
-  <title>Codact {data.title}</title>
-  <meta name="description" content="A todo list app" />
-</svelte:head>
+  /*
+  import CodeMirror from 'svelte-codemirror-editor';
+  import { javascript } from '@codemirror/lang-javascript';
 
-<div class="todos">
-  <h1>Codact Generative Coding</h1>
 
   <dev on:click={updateSelect} on:select={updateSelect}>
     <CodeMirror
@@ -48,6 +42,20 @@
       readonly={true}
     />
   </dev>
+  */
+</script>
+
+<svelte:head>
+  <title>Codact {data.title}</title>
+  <meta name="description" content="A todo list app" />
+</svelte:head>
+
+<div class="todos">
+  <h1>Codact Generative Coding</h1>
+
+  <div on:click={updateSelect} on:select={updateSelect}>
+    <Prism language="javascript" source={interactions.at(-1)?.code || data.interactions.at(-1)?.code || "function yoyo();" }/>
+  </div>
 
   <iframe srcdoc= "
     <html>
@@ -92,8 +100,8 @@
         };
       }}
     >
-      <input type="hidden" name="selectionStart" value={selectionStart} />
-      <input type="hidden" name="selectionEnd" value={selectionEnd} />
+      <input type="hidden" name="selectionStart" value="" />
+      <input type="hidden" name="selectionEnd" value="" />
       <input type="hidden" name="selection" value="" />
       <input
         name="question"

@@ -4,8 +4,8 @@
     "node": "16.17.1"
   },
   "scripts": {
-    "start" : "node build/index.js",
-    "dev": "vite dev", 
+    "start": "node build/index.js",
+    "dev": "vite dev",
     "build": "vite build",
     "package": "svelte-kit package",
     "preview": "vite preview",
@@ -23,20 +23,21 @@
   },
   "type": "module",
   "dependencies": {
-    "@sveltejs/adapter-node": "next",
-    "@sveltejs/kit": "next",
-    "vite": "^3.1.4",
-    "svelte": "^3.46.0",
-    "prisma": "^4.4.0",
     "@codemirror/lang-javascript": "^6.1.0",
     "@codemirror/language": "^6.2.1",
     "@codemirror/state": "^6.1.2",
     "@codemirror/view": "^6.3.0",
     "@fontsource/fira-mono": "^4.5.0",
     "@prisma/client": "^4.4.0",
+    "@sveltejs/adapter-node": "next",
+    "@sveltejs/kit": "next",
     "codemirror": "^6.0.0",
     "cookie": "^0.4.1",
+    "prisma": "^4.4.0",
+    "svelte": "^3.46.0",
     "svelte-codemirror-editor": "^1.1.0",
+    "svelte-prism": "^1.1.6",
+    "vite": "^3.1.4",
     "web-vitals": "^2.1.4"
   }
 }
