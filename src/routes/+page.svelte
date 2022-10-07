@@ -94,10 +94,6 @@
 
   <dev on:click={updateSelect} on:select={updateSelect} bind:this={editor} />
 
-  <div on:click={updateSelect} on:select={updateSelect}>
-    <Prism language="javascript" source={interactions.at(-1)?.code || data.interactions.at(-1)?.code || "hello world;"}/>
-  </div>
-
   <iframe srcdoc= "
     <html>
     <head>
