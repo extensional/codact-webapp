@@ -66,7 +66,7 @@ export const actions = {
       }
     }) : null;
 
-    //console.log("recent: ", recent);
+    console.log("recent: ", recent);
 
     /*await api('POST', `codact/${gen}`, {
       text: form.get('text')

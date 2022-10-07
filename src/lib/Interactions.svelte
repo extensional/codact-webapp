@@ -15,7 +15,7 @@
   >
     <p>> {interaction.question}</p>
     <p>{interaction.answer}</p>
-    <a href="/?gen={interaction.gen}">fork@{interaction.gen}</a>
+    <a href="/?gen={interaction.gen}#!">fork@{interaction.gen}</a>
   </div>
 {/each}
 {/key}

@@ -1,8 +1,11 @@
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css'>
 
 <script>
+  import url from "$lib/url.js";
+
   import { dataset_dev } from 'svelte/internal';
 
+  import { onMount, afterUpdate } from 'svelte';
   import { page } from '$app/stores';
   import { enhance } from '$app/forms';
   import { goto } from '$app/navigation';
@@ -20,6 +23,13 @@
   // @ts-ignore
   let interactions = [];
 
+  url.subscribe(() => {
+    if (interactions.length > 0 && (!$url.searchParams.get('gen') || $url.searchParams.get('gen') != interactions.at(-1).gen))
+       interactions = [];
+    if (!$url || $url.search == "")
+       gen = null;
+  });
+
   let gencode = "";
 
   // @ts-ignore
@@ -32,7 +42,6 @@
   import CodeMirror from 'svelte-codemirror-editor';
   import { javascript } from '@codemirror/lang-javascript';
 
-
   <dev on:click={updateSelect} on:select={updateSelect}>
     <CodeMirror
       bind:this={codeview}
@@ -43,8 +52,13 @@
     />
   </dev>
   */
-</script>
 
+  let selectionStart = 0;
+  let selectionEnd = 0;
+
+
+
+</script>
 <svelte:head>
   <title>Codact {data.title}</title>
   <meta name="description" content="A todo list app" />
@@ -72,7 +86,6 @@
 
   <div class="chat">
     <div class="history">
-
       <Interactions interactions={data.interactions}/>
       <Interactions interactions={interactions}/>
     </div>
@@ -100,8 +113,8 @@
         };
       }}
     >
-      <input type="hidden" name="selectionStart" value="0" />
-      <input type="hidden" name="selectionEnd" value="0" />
+      <input type="hidden" name="selectionStart" value={selectionStart.toString()} />
+      <input type="hidden" name="selectionEnd" value={selectionEnd.toString()} />
       <input type="hidden" name="selection" value="" />
       <input
         name="question"
