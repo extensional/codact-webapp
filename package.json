@@ -1,8 +1,5 @@
 {
   "private": true,
-  "engines": {
-    "node": "16.17.1"
-  },
   "scripts": {
     "start" : "build",
     "dev": "vite dev",
@@ -15,11 +12,8 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
-  },
-  "type": "module",
-  "dependencies": {
     "@sveltejs/adapter-auto": "next",
-    "@sveltejs/kit": "1.0.0-next.511",
+    "@sveltejs/kit": "next",
     "@types/cookie": "^0.5.1",
     "prettier": "^2.6.2",
     "prettier-plugin-svelte": "^2.7.0",
@@ -28,6 +22,9 @@
     "svelte-check": "^2.7.1",
     "typescript": "^4.7.4",
     "vite": "^3.1.4",
+  },
+  "type": "module",
+  "dependencies": {
     "@codemirror/lang-javascript": "^6.1.0",
     "@codemirror/language": "^6.2.1",
     "@codemirror/state": "^6.1.2",
