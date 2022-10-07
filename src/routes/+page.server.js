@@ -4,7 +4,6 @@ import { api } from './api';
 
 import { PrismaClient } from '@prisma/client';
 
-
 const prisma = new PrismaClient();
 
 
@@ -72,7 +71,7 @@ export const actions = {
       text: form.get('text')
     });*/
 
-    const newcode = recent?.code || "";
+    const newcode = recent?.code || "hello world my friends();";
 
     const newintr = await prisma.interaction.create(
       {

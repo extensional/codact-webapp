@@ -1,6 +1,8 @@
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css'>
 
 <script>
+// @ts-nocheck
+
   import url from "$lib/url.js";
 
   import { dataset_dev } from 'svelte/internal';
@@ -12,6 +14,11 @@
 
   import Interactions from '$lib/Interactions.svelte';
   import Prism from 'svelte-prism';
+
+  import CodeMirror from 'svelte-codemirror-editor';
+  import { javascript } from '@codemirror/lang-javascript';
+
+  import { highlightActiveLine } from '@codemirror/view';
 
   /** @type {import('./$types').PageData} */
   export let data;
@@ -38,25 +45,16 @@
     console.log('Selected:', selected);
   }
 
-  /*
-  import CodeMirror from 'svelte-codemirror-editor';
-  import { javascript } from '@codemirror/lang-javascript';
-
-  <dev on:click={updateSelect} on:select={updateSelect}>
-    <CodeMirror
-      bind:this={codeview}
-      class="codeView"
-      lang={javascript()}
-      value={interactions.at(-1)?.code || data.interactions.at(-1)?.code}
-      readonly={true}
-    />
-  </dev>
-  */
+  
 
   let selectionStart = 0;
   let selectionEnd = 0;
 
+  let editor;
 
+  onMount(() => {
+    console.log("editor:", editor);
+  });
 
 </script>
 <svelte:head>
@@ -64,11 +62,21 @@
   <meta name="description" content="A todo list app" />
 </svelte:head>
 
-<div class="todos">
+<div class="mainarea">
   <h1>Codact Generative Coding</h1>
 
+  <dev on:click={updateSelect} on:select={updateSelect} bind:this={editor}>
+    <CodeMirror
+      class="codeView"
+      lang={javascript()}
+      extensions={[highlightActiveLine()]}
+      value={interactions.at(-1)?.code || data.interactions.at(-1)?.code || "function foo () = a + b;\n how is this done?"}
+      readonly={true}
+    />
+  </dev>
+
   <div on:click={updateSelect} on:select={updateSelect}>
-    <Prism language="javascript" source={interactions.at(-1)?.code || data.interactions.at(-1)?.code || "function yoyo();" }/>
+    <Prism language="javascript" source={interactions.at(-1)?.code || data.interactions.at(-1)?.code || "hello world;"}/>
   </div>
 
   <iframe srcdoc= "
@@ -135,7 +143,7 @@
     border: 1px solid #ff3e00 !important;
   }
 
-  .todos {
+  .mainarea {
     width: 100%;
     max-width: var(--column-width);
     margin: var(--column-margin-top) auto 0 auto;
@@ -154,7 +162,7 @@
     padding: 1em 0em 0em 0em;
     width: 90%;
     border: none;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.0);
   }
 
   input:focus-visible {
@@ -213,5 +221,6 @@
     opacity: 0;
     background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20.5 2H3.5C2.67158 2 2 2.67157 2 3.5V20.5C2 21.3284 2.67158 22 3.5 22H20.5C21.3284 22 22 21.3284 22 20.5V3.5C22 2.67157 21.3284 2 20.5 2Z' fill='%23676778' stroke='%23676778' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M17 2V11H7.5V2H17Z' fill='white' stroke='white' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M13.5 5.5V7.5' stroke='%23676778' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M5.99844 2H18.4992' stroke='%23676778' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E%0A");
   }
+
 
 </style>
