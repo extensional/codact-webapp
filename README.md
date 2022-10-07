@@ -19,6 +19,12 @@ pnpm install
 npx prisma generate
 ```
 
+if this is the first time using the database do
+
+```
+npx prisma db push
+```
+
 ```bash
 # npm run dev
 
