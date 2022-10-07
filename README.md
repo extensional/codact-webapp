@@ -1,6 +1,6 @@
-# SvelteKit
+# Codact Webapp
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte), deployed to [Vercel](https://vercel.com).
+Based on Sveltekit - [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte), deployed to [Vercel](https://vercel.com).
 
 ## Deploy Your Own
 
@@ -14,12 +14,18 @@ First install pnpm: https://pnpm.io/installation
 
 Once you've installed dependencies with `pnpm install`, start a development server:
 
+```
+pnpm install
+npx prisma generate
+```
+
 ```bash
 # npm run dev
 
 # or start the server and open the app in a new browser tab
 # pnpm run dev -- --open
 # ACTUALLY
+
 pnpm build && pnpm run preview --open
 ```
 
