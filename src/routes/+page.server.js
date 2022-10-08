@@ -65,7 +65,12 @@ export const actions = {
       : null;
 
     console.log('recent: ', recent);
-    const { newCode, answer } = await getCodeAndAnswer(recent, selectionStart, selectionEnd, question);
+    const { newCode, answer } = await getCodeAndAnswer(
+      recent,
+      selectionStart,
+      selectionEnd,
+      question
+    );
 
     const newintr = await prisma.interaction.create({
       data: {
@@ -100,6 +105,7 @@ async function getCodeAndAnswer(recent, selectionStart, selectionEnd, question) 
     question
   });
   const isInfo = await response.json();
+  const currentCode = recent?.code || '';
   let answer;
   let newCode;
 
@@ -110,7 +116,7 @@ async function getCodeAndAnswer(recent, selectionStart, selectionEnd, question) 
       question
     });
     answer = await response.json();
-    newCode = recent?.code,
+    newCode = currentCode;
   } else {
     let res = await api('POST', `prompt/completion`, {
       textInDoc: recent?.code || '',
@@ -120,9 +126,9 @@ async function getCodeAndAnswer(recent, selectionStart, selectionEnd, question) 
     const aout = await res.json();
     answer = 'I generated the code you asked for!';
     if (selectionStart && selectionEnd) {
-      newCode = replaceRange(recent?.code, selectionStart, selectionEnd, aout);
+      newCode = replaceRange(currentCode, selectionStart, selectionEnd, aout[0]);
     } else {
-      newCode = aout;
+      newCode = aout[0];
     }
   }
   return { newCode, answer };
