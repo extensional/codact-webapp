@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "command": "pnpm build && pnpm run preview --open",
+            "command": "pnpm run dev -- --open",
             "name": "Relaunch code",
             "request": "launch",
             "type": "node-terminal"
