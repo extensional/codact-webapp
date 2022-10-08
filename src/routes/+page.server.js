@@ -65,61 +65,14 @@ export const actions = {
       : null;
 
     console.log('recent: ', recent);
-    const codeSelection = recent?.code.slice(selectionStart, selectionEnd) || '';
-    //
-    const response = await api('POST', `prompt/question`, {
-      question
-    });
-    const isInfo = await response.json();
-    console.log(isInfo);
-    if (isInfo) {
-      let response = await api('POST', `prompt/answer`, {
-        textInDoc: recent?.code || '',
-        textInSelection: codeSelection,
-        question
-      });
-      const aout = await response.json();
-      console.log(aout);
-      const newintr = await prisma.interaction.create({
-        data: {
-          question: question,
-          answer: aout || '',
-          selectionStart: selectionStart,
-          selectionEnd: selectionEnd,
-          code: recent?.code || '',
-          history: {
-            connect:
-              recent?.history
-                .map((a) => {
-                  return { gen: a.gen };
-                })
-                .concat(recent ? [{ gen: recent.gen }] : []) ?? []
-          }
-        }
-      });
-      if (!newintr) throw error(404);
-      return;
-    }
-    let res = await api('POST', `prompt/completion`, {
-      textInDoc: recent?.code || '',
-      textInSelection: codeSelection,
-      question
-    });
-    const aout = await res.json();
-
-    let newCode;
-    if (selectionStart && selectionEnd) {
-      newCode = replaceRange(recent?.code, selectionStart, selectionEnd, aout);
-    } else {
-      newCode = aout;
-    }
+    const { newCode, answer } = await getCodeAndAnswer(recent, selectionStart, selectionEnd, question);
 
     const newintr = await prisma.interaction.create({
       data: {
-        question: question,
-        answer: 'I generated the code you asked for!',
-        selectionStart: selectionStart,
-        selectionEnd: selectionEnd,
+        question,
+        answer,
+        selectionStart,
+        selectionEnd,
         code: newCode,
         history: {
           connect:
@@ -139,4 +92,38 @@ export const actions = {
 
 function replaceRange(s, start, end, substitute) {
   return s.substring(0, start) + substitute + s.substring(end);
+}
+
+async function getCodeAndAnswer(recent, selectionStart, selectionEnd, question) {
+  const codeSelection = recent?.code.slice(selectionStart, selectionEnd) || '';
+  const response = await api('POST', `prompt/question`, {
+    question
+  });
+  const isInfo = await response.json();
+  let answer;
+  let newCode;
+
+  if (isInfo) {
+    const response = await api('POST', `prompt/answer`, {
+      textInDoc: recent?.code || '',
+      textInSelection: codeSelection,
+      question
+    });
+    answer = await response.json();
+    newCode = recent?.code,
+  } else {
+    let res = await api('POST', `prompt/completion`, {
+      textInDoc: recent?.code || '',
+      textInSelection: codeSelection,
+      question
+    });
+    const aout = await res.json();
+    answer = 'I generated the code you asked for!';
+    if (selectionStart && selectionEnd) {
+      newCode = replaceRange(recent?.code, selectionStart, selectionEnd, aout);
+    } else {
+      newCode = aout;
+    }
+  }
+  return { newCode, answer };
 }
