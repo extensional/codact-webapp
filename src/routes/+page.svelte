@@ -16,16 +16,6 @@
   import { goto } from '$app/navigation';
 
   import Interactions from '$lib/Interactions.svelte';
-/*
-  import CodeMirror from 'svelte-codemirror-editor';
-  <CodeMirror
-      class="codeView"
-      lang={javascript()}
-      extensions={[highlightActiveLine()]}
-      value={interactions.at(-1)?.code || data.interactions.at(-1)?.code || "function foo () = a + b;\n how is this done?"}
-      readonly={true}
-    />
-    */
   import { javascript } from '@codemirror/lang-javascript';
 
 

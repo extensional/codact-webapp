@@ -26,12 +26,9 @@ npx prisma db push
 ```
 
 ```bash
-# npm run dev
+# pnpm run dev --open
 
-# or start the server and open the app in a new browser tab
-# pnpm run dev -- --open
 # ACTUALLY
-
 pnpm build && pnpm run preview --open
 ```
 

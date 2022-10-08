@@ -107,3 +107,6 @@ button:focus:not(:focus-visible) {
 }
 
 
+.CodeMirror-focused div.CodeMirror-cursors {
+  visibility: visible;
+  }

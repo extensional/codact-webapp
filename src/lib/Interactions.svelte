@@ -6,7 +6,7 @@
 </script>
 
 {#key interactions}
-{#each interactions as interaction (interaction.uid)}  
+{#each interactions as interaction (interaction.gen)}  
   <div
     class="interaction"
     class:done={interaction.done}
@@ -15,7 +15,7 @@
   >
     <p>> {interaction.question}</p>
     <p>{interaction.answer}</p>
-    <a href="/?gen={interaction.gen}#!">fork@{interaction.gen}</a>
+    <a data-sveltekit-prefetch href="/?gen={interaction.gen}#!">fork@{interaction.gen}</a>
   </div>
 {/each}
 {/key}
