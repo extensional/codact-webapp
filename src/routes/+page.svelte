@@ -46,7 +46,6 @@
 </svelte:head>
 
 <div class="mainarea">
-  <h1>Codact Generative Coding</h1>
 
   <div class="codeRender">
     <CodeView bind:selectionStart bind:selectionEnd bind:gencode />

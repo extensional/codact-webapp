@@ -156,6 +156,7 @@ button:focus:not(:focus-visible) {
   padding: 1em 0em 0em 0em;
   width: 90%;
   border: none;
+  color: white;
   background: rgba(255, 255, 255, 0);
 }
 
