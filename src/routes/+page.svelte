@@ -14,6 +14,7 @@
 
   import Interactions from '$lib/Interactions.svelte';
   import { javascript } from '@codemirror/lang-javascript';
+  import { canvasWrapperGenerator } from "./canvasWrapperGenerator";
 
 
   /** @type {import('./$types').PageData} */
@@ -81,18 +82,7 @@
 
   <dev on:click={updateSelect} on:select={updateSelect} bind:this={editor} />
 
-  <iframe srcdoc= "
-    <html>
-    <head>
-      <script>
-        {data.interactions.at(-1)?.code}
-      </script>
-    </head>
-
-    <body>
-      <canvas></canvas>
-    </body>
-    </html>" class="render"/>
+  <iframe title="Code View" srcdoc={canvasWrapperGenerator(data.interactions.at(-1)?.code ?? "")} class="render"/>
 
   <div class="chat">
     <div class="history">
