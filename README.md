@@ -27,9 +27,6 @@ npx prisma db push
 
 ```bash
 # pnpm run dev --open
-
-# ACTUALLY
-pnpm build && pnpm run preview --open
 ```
 
 ## Building
@@ -38,6 +35,5 @@ To create a production version of your app:
 
 ```bash
 pnpm run build
+pnpm run preview --open
 ```
-
-You can preview the production build with `npm run preview`.
