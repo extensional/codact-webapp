@@ -138,3 +138,24 @@ button:focus:not(:focus-visible) {
   border: var(--beep-color) 2px solid;
   background-color: white;
 }
+
+
+.chat {
+  border: 1px solid var(--beep-color) !important;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  padding: 10px;
+}
+
+.newchat {
+  margin: 0 0 0.5rem 0;
+  color: var(--beep-color);
+}
+
+.newchat input {
+  padding: 1em 0em 0em 0em;
+  width: 90%;
+  border: none;
+  background: rgba(255, 255, 255, 0);
+}
+
