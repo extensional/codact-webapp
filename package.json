@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node build/index.js",
     "dev": "vite dev",
-    "build": "pnpm prisma generate && vite build",
+    "prebuild": "prisma generate",
+    "build": "vite build",
     "package": "svelte-kit package",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./jsconfig.json",
