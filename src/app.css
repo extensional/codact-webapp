@@ -145,6 +145,8 @@ button:focus:not(:focus-visible) {
   border-radius: 5px;
   background-color: var(--primary-color);
   padding: 10px;
+  overflow: auto;
+  height: 300px;
 }
 
 .newchat {
