@@ -14,12 +14,14 @@ const base = 'https://codact.herokuapp.com';
  * @param {string} resource
  * @param {Record<string, unknown>} [data]
  */
-export function api(method, resource, data) {
-  return fetch(`${base}/${resource}`, {
+export async function api(method, resource, data) {
+  const url = `${base}/${resource}`;
+  console.log(url);
+  return await fetch(url, {
     method,
     headers: {
       'content-type': 'application/json'
     },
-    body: data && JSON.stringify(data)
+    body: JSON.stringify(data)
   });
 }

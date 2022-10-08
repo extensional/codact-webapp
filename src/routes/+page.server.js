@@ -65,23 +65,25 @@ export const actions = {
       : null;
 
     console.log('recent: ', recent);
-    const codeSelection = recent?.code.slice(selectionStart, selectionEnd);
+    const codeSelection = recent?.code.slice(selectionStart, selectionEnd) || '';
     //
     const response = await api('POST', `prompt/question`, {
-      question: form.get('text')
+      question
     });
-    const is_info = response.body;
-    if (is_info) {
+    const isInfo = await response.json();
+    console.log(isInfo);
+    if (isInfo) {
       let response = await api('POST', `prompt/answer`, {
-        textInDoc: recent?.code,
+        textInDoc: recent?.code || '',
         textInSelection: codeSelection,
-        text: form.get('text')
+        question
       });
-      const aout = response.body;
+      const aout = await response.json();
+      console.log(aout);
       const newintr = await prisma.interaction.create({
         data: {
           question: question,
-          answer: aout,
+          answer: aout || '',
           selectionStart: selectionStart,
           selectionEnd: selectionEnd,
           code: recent?.code || '',
@@ -95,24 +97,16 @@ export const actions = {
           }
         }
       });
-      // setPrompt('Codact: How else can I help you?');
       if (!newintr) throw error(404);
       return;
     }
     let res = await api('POST', `prompt/completion`, {
-      textInDoc: recent?.code,
+      textInDoc: recent?.code || '',
       textInSelection: codeSelection,
-      text: form.get('text')
+      question
     });
-    const aout = res.body;
+    const aout = await res.json();
 
-    // setPrompt('Codact: How else can I help you?');
-
-    await api('POST', `prompt/`, {
-      codeSelection,
-      code: recent?.code,
-      text: form.get('text')
-    });
     let newCode;
     if (selectionStart && selectionEnd) {
       newCode = replaceRange(recent?.code, selectionStart, selectionEnd, aout);
@@ -137,8 +131,6 @@ export const actions = {
         }
       }
     });
-    //console.log("newintr: ", newintr);
-
     if (!newintr) throw error(404);
 
     return newintr;
