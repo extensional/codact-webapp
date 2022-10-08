@@ -35,24 +35,28 @@
   let selectionStart = 0;
   let selectionEnd = 0;
 
-  $:{ gencode = interactions.at(-1)?.code || data.interactions?.at(-1)?.code || " HELLO WORLD; "; }
+  $: {
+    gencode = interactions.at(-1)?.code || data.interactions?.at(-1)?.code || '';
+  }
 </script>
 
 <svelte:head>
-  <title>Codact {data.title}</title>
+  <title>Codact - {data.title}</title>
   <meta name="description" content="A todo list app" />
 </svelte:head>
 
 <div class="mainarea">
   <h1>Codact Generative Coding</h1>
 
-  <CodeView bind:selectionStart bind:selectionEnd bind:gencode />
+  <div class="codeRender">
+    <CodeView bind:selectionStart bind:selectionEnd bind:gencode />
 
-  <iframe
-    title="Code View"
-    srcdoc={canvasWrapperGenerator(data.interactions.at(-1)?.code ?? '')}
-    class="render"
-  />
+    <iframe
+      title="Rendered Frame"
+      srcdoc={canvasWrapperGenerator(data.interactions.at(-1)?.code ?? '')}
+      class="render"
+    />
+  </div>
 
   <div class="chat">
     <div class="history">

@@ -136,7 +136,7 @@
 
 </script>
 
-<dev
+<span
     on:keydown={updateSelect}
     on:click={updateSelect}
     on:select={updateSelect}
