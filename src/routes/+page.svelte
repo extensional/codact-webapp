@@ -1,7 +1,4 @@
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css'>
-
 <script>
-// @ts-nocheck
   import {EditorView, highlightActiveLine, } from "@codemirror/view";
   import {basicSetup} from "codemirror";
   import {EditorState, Compartment} from "@codemirror/state";
