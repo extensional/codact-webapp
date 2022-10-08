@@ -1,13 +1,11 @@
-<script>
-  import {EditorView, highlightActiveLine, } from "@codemirror/view";
+<script lang="ts">
+  import {EditorView} from "@codemirror/view";
   import {basicSetup} from "codemirror";
   import {EditorState, Compartment} from "@codemirror/state";
 
   import url from "$lib/url.js";
 
-  import { dataset_dev } from 'svelte/internal';
-
-  import { onMount, afterUpdate } from 'svelte';
+  import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { enhance } from '$app/forms';
   import { goto } from '$app/navigation';
@@ -16,19 +14,19 @@
   import { javascript } from '@codemirror/lang-javascript';
   import { canvasWrapperGenerator } from "./canvasWrapperGenerator";
 
+  import type { PageData } from "./$types";
+  import type { Interaction } from "@prisma/client";
 
-  /** @type {import('./$types').PageData} */
-  export let data;
+  export let data : PageData;
 
   let gen = $page.url.searchParams.get('gen');
 
   let selected = '';
 
-  // @ts-ignore
-  let interactions = [];
+  let interactions : Interaction[] = [];
 
   url.subscribe(() => {
-    if (interactions.length > 0 && (!$url.searchParams.get('gen') || $url.searchParams.get('gen') != interactions.at(-1).gen))
+    if (interactions.length > 0 && (!$url.searchParams.get('gen') || $url.searchParams.get('gen') != interactions.at(-1)?.gen))
        interactions = [];
     if (!$url || $url.search == "")
        gen = null;
@@ -42,8 +40,9 @@
   let selectionStart = 0;
   let selectionEnd = 0;
 
-  let editor;
-  let myView;
+  let editor: Element;
+
+  let myView : EditorView;
   
   onMount(() => {
     console.log("editor:", editor);
@@ -52,17 +51,18 @@
     myView = new EditorView({
       doc: interactions.at(-1)?.code || data.interactions.at(-1)?.code || "function foo () = a + b;\n how is this done?",
       extensions: [basicSetup, language.of(javascript()),  EditorState.readOnly.of(true)],
-      parent: editor,
-      editable: false
+      parent: editor
     });
 
   });
 
   $: {
-    if (myView)
+    if (myView) {
       myView.dispatch({
         changes: {from:0, to: myView.state.doc.length, insert: interactions.at(-1)?.code || data.interactions.at(-1)?.code}
       });
+      
+    }
   }
 
   export function updateSelect(e) {
