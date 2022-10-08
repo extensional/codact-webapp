@@ -110,3 +110,8 @@ button:focus:not(:focus-visible) {
 .CodeMirror-focused div.CodeMirror-cursors {
   visibility: visible;
   }
+
+
+.cm-editor {
+  height: 200px;
+}
