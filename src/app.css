@@ -141,6 +141,7 @@ button:focus:not(:focus-visible) {
   background-color: lightgray;
   height:100%;
   display:flex;
+  width: 100%;
 }
 
 .cm-editor {
