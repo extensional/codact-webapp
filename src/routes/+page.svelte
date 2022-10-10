@@ -88,7 +88,7 @@
 
     <iframe
       title="Rendered Frame"
-      srcdoc={canvasWrapperGenerator(data.interactions.at(-1)?.code ?? '')}
+      srcdoc={canvasWrapperGenerator(gencode)}
       class="render"
     />
   </div>
