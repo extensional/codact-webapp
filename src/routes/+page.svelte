@@ -92,6 +92,7 @@
       title="Rendered Frame"
       srcdoc={canvasWrapperGenerator(gencode)}
       class="render"
+      id="render"
     />
   </div>
 
