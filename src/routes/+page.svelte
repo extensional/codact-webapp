@@ -39,8 +39,12 @@
    
   
   $: if (browser) { 
+    try {
     mixpanel.init('705a7eef381e043f43ca111a0b4d067e', {debug: import.meta.env.DEV, ignore_dnt: true, api_host: "https://api.mixpanel.com"});
     mixpanel.track('Codact.load', {data, gen, gencode});
+    } catch (e) {
+      console.log("couldn't even");
+    }
   }
 </script>
 
