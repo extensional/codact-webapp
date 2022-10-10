@@ -1,25 +1,26 @@
 import { Configuration, OpenAIApi } from "openai";
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
 interface QuestionInput {
-  code: string;
-  selection: string;
-  q: string;
+    code: string;
+    selection: string;
+    selectionStart: number;
+    selectionEnd: number;
+    q: string;
 }
 
 export async function answer({ code, selection, q }: QuestionInput) {
-    console.log("Selectful Edit");
     const prompt =
         (code.length > 0
-            ? "given the following code:\n> " + code.replace("\n", "\n> ")
+            ? "given the following javascript code:\n> " + code.replace("\n", "\n> ")
             : "") +
         (selection.length > 0
             ? "\nconsider the following snippet:\n> " +
-              selection.replace("\n", "\n> ")
+            selection.replace("\n", "\n> ")
             : "") +
         '\nplease answer "' +
         q +
@@ -61,7 +62,7 @@ export async function promptYesNo(question: string) {
         '\n* "would you implement a variable?": no' +
         '\n* "tell me whats happening": yes' +
         `\n* "${question}":`;
-        
+
     const completion = await openai.createCompletion({
         model: "text-davinci-002",
         temperature: 0.7,
@@ -74,46 +75,46 @@ export async function promptYesNo(question: string) {
             ? ""
             : completion.data.choices[0].text;
     const answer = compl === undefined ? "" : compl.toLowerCase();
-    console.log("compl: ", compl);
     return ["yes", "cor", "abs", "def", "sure"].some(
         (a) => answer.includes(a) || a.includes(answer)
     );
 };
 
-export async function completionEdit({ code, selection, q }: QuestionInput) {
-  console.log("Selectless Edit");
+export async function completionEdit({ code, selection, selectionStart, selectionEnd, q }: QuestionInput) {
+    const prompt =
+        (code.length > 0
+            ? "Given the following javascript code:\n> " + code.replace("\n", "\n> ") + "\n"
+            : "") +
+        (selection.length > 0
+            ? `Consider the following snippet from ${selectionStart}-${selectionEnd}:\n> ` +
+            selection.replace("\n", "\n> ") + "\n"
+            : "") +
+        `please write code in response to "${q}":`;
 
-  const prompt =
-      (code.length > 0
-          ? "given the following code:\n> " + code.replace("\n", "\n> ")
-          : "") +
-      (selection.length > 0
-          ? "\nconsider the following snippet:\n> " +
-            selection.replace("\n", "\n> ")
-          : "") +
-      '\nplease write code in response to "' +
-      q +
-      '":\n';
+    const completions = await openai.createCompletion({
+        model: "text-davinci-002",
+        temperature: 1,
+        max_tokens: 500,
+        n: 1,
+        prompt,
+    });
 
-  const completions = await openai.createCompletion({
-      model: "text-davinci-002",
-      temperature: 1,
-      max_tokens: 500,
-      n: 1,
-      prompt,
-  });
-
-  return completions.data.choices
-      ?.map((sugg) => sugg.text)
-      .filter((sugg) => sugg != undefined)
-      .map((sugg) => {
-          var suggestion = (sugg === undefined ? "" : sugg).replace(
-              "\n> ",
-              "\n"
-          );
-          if (suggestion[0] === ">") {
-              suggestion = suggestion.slice(2)[1];
-          }
-          return suggestion;
-      });
+    return completions.data.choices
+        ?.map((sugg) => sugg.text)
+        .filter((sugg) => sugg != undefined)
+        .map((sugg) => {
+            sugg = sugg === undefined ? "" : sugg;
+            if (sugg.length > 0)
+                sugg = sugg.slice(sugg[0] == "\n" ? 1 : sugg[1] == "\n" ? 2 : 0, sugg.length);
+            //console.log("sugg1: ", sugg);
+            sugg = sugg.replace("\n> ","\n").replace("\n>","\n");
+            //console.log("sugg2: ", sugg);
+            if (sugg.length > 0 && sugg[0] == ">") {
+                sugg = sugg.slice(1);
+                if (sugg.length > 0 && sugg[0] == " ")
+                    sugg = sugg.slice(1);
+            }
+            //console.log("sugg3: ", sugg);
+            return sugg;
+        });
 };

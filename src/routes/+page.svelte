@@ -1,5 +1,6 @@
 <script lang="ts">
   import url from '$lib/url.js';
+  import {startCode} from './codeGlobals.js';
   import { page } from '$app/stores';
   import { enhance } from '$app/forms';
   import { goto } from '$app/navigation';
@@ -12,8 +13,6 @@
   export let data: PageData;
 
   let gen = $page.url.searchParams.get('gen');
-
-  let selected = '';
 
   let interactions: Interaction[] = [];
 
@@ -28,11 +27,11 @@
 
   });
 
-  let gencode = '';
+  let gencode = startCode;
   let selectionStart = 0;
   let selectionEnd = 0;
   $: {
-    gencode = interactions.at(-1)?.code || data.interactions?.at(-1)?.code || ''; 
+    gencode = interactions.at(-1)?.code || data.interactions?.at(-1)?.code || startCode; 
   }
    
   

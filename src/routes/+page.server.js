@@ -1,6 +1,8 @@
 import { error } from '@sveltejs/kit';
 import * as api from '$lib/codegen';
 
+import {startCode} from './codeGlobals.js';
+
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -47,8 +49,6 @@ export const actions = {
 
     const question = form.get('question')?.toString() ?? '';
     const gen = url.searchParams.get('gen') ?? '';
-
-    //console.log('BEGINNING: ', question);
 
     var has_gen =
       gen && gen != 'null' && gen != undefined && gen != null && gen != 'undefined' && gen != '';
@@ -103,18 +103,17 @@ async function getCodeAndAnswer(recent, selectionStart, selectionEnd, q) {
 
   const isInfo = await api.promptYesNo(q);
 
-  const currentCode = recent?.code || '';
+  const code = recent?.code || startCode;
   let answer;
   let newCode;
-  const code = recent?.code || '';
-  const setup = {code, selection, q };
+  const setup = {code, selection, selectionStart, selectionEnd, q };
   if (isInfo) {
     answer = await api.answer(setup);
-    newCode = currentCode;
+    newCode = code;
   } else {
     let aout = await api.completionEdit(setup);
-    answer = 'I generated the code you asked for!';
-    newCode = replaceRange(currentCode, selectionStart, selectionEnd, (aout ?? [""])[0]);
+    answer = 'sure!';
+    newCode = replaceRange(code, selectionStart, selectionEnd, (aout ?? [""])[0]);
   }
   return { newCode, answer };
 }
