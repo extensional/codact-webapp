@@ -1,9 +1,7 @@
 <script>
 	import { browser } from '$app/environment';	
-	import mixpanel from 'mixpanel-browser';
 	$: if (browser) { 
-		mixpanel.init('705a7eef381e043f43ca111a0b4d067e', {debug: import.meta.env.DEV, ignore_dnt: true, api_host: "https://api.mixpanel.com"});
-	    mixpanel.track('about.load');
+	    window.mixpanel.track('about.load'); // mixpanel loaded direclty in app.html
   	}
 </script>
 
@@ -16,9 +14,10 @@
 	<h1>About Codact</h1>
 
 	<p>
-		Codact.dev is a new way to code for creating code by to an AI. Using it is pretty simple:
+		Codact.dev is an entirely new way to code by creating code by to an AI. Using it is pretty simple:
 	</p>
-	<p> 1. tell codact </p>
+	<p> 1. Select where you want to insert code, or what code you want replaced Tell codact what you want it to code. </p>
+	<p> 2. Tell codact what you want to create. </p>
 	<pre>npm create svelte@latest</pre>
 
 	<p>

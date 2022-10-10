@@ -10,7 +10,7 @@
   import type { Interaction } from '@prisma/client';
   import CodeView from '$lib/CodeView.svelte';
   import { browser } from '$app/environment';
-  import mixpanel from 'mixpanel-browser';
+  import {onMount} from "svelte";
 
   export let data: PageData;
 
@@ -36,16 +36,11 @@
   $: {
     gencode = interactions.at(-1)?.code || data.interactions?.at(-1)?.code || startCode; 
   }
-   
-  
-  $: if (browser) { 
-    try {
-    mixpanel.init('705a7eef381e043f43ca111a0b4d067e', {debug: import.meta.env.DEV, ignore_dnt: true, api_host: "https://api.mixpanel.com"});
-    mixpanel.track('Codact.load', {data, gen, gencode});
-    } catch (e) {
-      console.log("couldn't even");
-    }
-  }
+
+  $: if (browser) {
+    window.mixpanel.track('Codact.load', {data, gen, gencode});      
+  };
+
 </script>
 
 <svelte:head>
@@ -71,10 +66,10 @@
           action="/?gen={gen}#"
           method="POST"
           use:enhance={({ form, data, action, cancel }) => {
-            mixpanel.track('Codact.push.init', {form, gen, gencode});
+            window.mixpanel.track('Codact.push.init', {form, gen, gencode});
 
             return async ({ result, update }) => {
-              mixpanel.track('Codact.push.result', {result, gen, gencode});
+              window.mixpanel.track('Codact.push.result', {result, gen, gencode});
 
               if (!result.data) return;
     
