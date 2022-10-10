@@ -4,7 +4,7 @@
 
 <header>
 	<div class="corner">
-		<a href="https://kit.svelte.dev">
+		<a href="https://extensional.ai">
 			<img src="/logo.png" alt="SvelteKit" />
 		</a>
 	</div>
@@ -14,7 +14,7 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li class:active={$page.url.pathname === '/'}><a data-sveltekit-prefetch href="/">Codact</a></li>
+			<li class:active={$page.url.pathname === '/'}><a data-sveltekit-prefetch href="/">START CODACT</a></li>
 			<li class:active={$page.url.pathname === '/about'}>
 				<a data-sveltekit-prefetch href="/about">Readme</a>
 			</li>

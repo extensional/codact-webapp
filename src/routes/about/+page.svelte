@@ -1,3 +1,12 @@
+<script>
+	import { browser } from '$app/environment';	
+	import mixpanel from 'mixpanel-browser';
+	$: if (browser) { 
+		mixpanel.init('705a7eef381e043f43ca111a0b4d067e', {debug: import.meta.env.DEV, ignore_dnt: true});
+	    mixpanel.track('about.load');
+  	}
+</script>
+
 <svelte:head>
 	<title>Codact README</title>
 	<meta name="description" content="About this app" />

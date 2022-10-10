@@ -9,10 +9,13 @@
   import type { PageData } from './$types';
   import type { Interaction } from '@prisma/client';
   import CodeView from '$lib/CodeView.svelte';
+  import { browser } from '$app/environment';
+  import mixpanel from 'mixpanel-browser';
 
   export let data: PageData;
 
   let gen = $page.url.searchParams.get('gen');
+
 
   let interactions: Interaction[] = [];
 
@@ -35,6 +38,10 @@
   }
    
   
+  $: if (browser) { 
+    mixpanel.init('705a7eef381e043f43ca111a0b4d067e', {debug: import.meta.env.DEV, ignore_dnt: true});
+    mixpanel.track('Codact.load', {data, gen, gencode});
+  }
 </script>
 
 <svelte:head>
@@ -60,7 +67,11 @@
           action="/?gen={gen}#"
           method="POST"
           use:enhance={({ form, data, action, cancel }) => {
+            mixpanel.track('Codact.push.init', {form, gen, gencode});
+
             return async ({ result, update }) => {
+              mixpanel.track('Codact.push.result', {result, gen, gencode});
+
               if (!result.data) return;
     
               form.reset();
