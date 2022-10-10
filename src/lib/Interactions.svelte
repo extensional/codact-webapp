@@ -24,7 +24,7 @@
       <div class="share-links"><span class="surroundings">
         <a class="fork-link" href="/?gen={interaction.gen}#!">revert</a> |
         <a class="fork-link" target="_blank" href="/?gen={interaction.gen}#!">fork</a> |
-        <a class="fork-link" href="" onclick="navigator.clipboard.writeText(`https://codact.dev/?gen={interaction.gen}`)">permalink</a>
+        <a class="fork-link" onclick="navigator.clipboard.writeText(`https://codact.dev/?gen={interaction.gen}`)">permalink</a>
         </span>
       </div>
     </div>
