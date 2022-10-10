@@ -11,20 +11,18 @@
 </svelte:head>
 
 <div class="content">
-	<h1>About Codact</h1>
+	<h1>Codact: Interactive AI Programming</h1>
 
 	<p>
-		Codact.dev is an entirely new way to code by creating code by to an AI. Using it is pretty simple:
+		With codact, you write code by interacting with an AI.   This is an entirely new way to program, 
+		and there are many possible uses.  Try to create entire apps all in one go, find bugs in apps its generated, modify code you've created, 
+		fork and share your coding conversations.
 	</p>
-	<p> 1. Select where you want to insert code, or what code you want replaced Tell codact what you want it to code. </p>
-	<p> 2. Tell codact what you want to create. </p>
-	<pre>npm create svelte@latest</pre>
 
-	<p>
-		The page you're looking at is purely static HTML, with no client-side interactivity needed.
-		Because of that, we don't need to load any JavaScript. Try viewing the page's source, or opening
-		the devtools network panel and reloading.
-	</p>
+	<h1> Using Codact </h1>
+	<p> 1. Select where you want to insert code, or select what code you want modified. </p>
+	<p> 2. Tell codact what you want to do, create, or know. </p>
+	<p> 3. Click the fork icon to revert to a previous point in the code. </p>
 
 </div>
 
