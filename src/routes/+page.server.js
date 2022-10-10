@@ -44,14 +44,15 @@ export const actions = {
 
     const selectionStart = parseInt(form.get('selectionStart')?.toString() ?? '0');
     const selectionEnd = parseInt(form.get('selectionEnd')?.toString() ?? '0');
+
+
     const question = form.get('question')?.toString() ?? '';
     const gen = url.searchParams.get('gen') ?? '';
 
+    //console.log('BEGINNING: ', question);
+
     var has_gen =
       gen && gen != 'null' && gen != undefined && gen != null && gen != 'undefined' && gen != '';
-
-    console.log('BEGINNING: ', question);
-    console.log('gen: ', gen);
 
     const recent = has_gen
       ? await prisma.interaction.findUnique({
@@ -64,7 +65,6 @@ export const actions = {
         })
       : null;
 
-    console.log('recent: ', recent);
     const { newCode, answer } = await getCodeAndAnswer(
       recent,
       selectionStart,
@@ -96,7 +96,7 @@ export const actions = {
 };
 
 function replaceRange(s, start, end, substitute) {
-  return s.substring(0, start) + substitute + s.substring(end);
+  return s.substring(0, start) + substitute + s.substring(end, s.length);
 }
 
 async function getCodeAndAnswer(recent, selectionStart, selectionEnd, question) {
@@ -125,11 +125,7 @@ async function getCodeAndAnswer(recent, selectionStart, selectionEnd, question) 
     });
     const aout = await res.json();
     answer = 'I generated the code you asked for!';
-    if (selectionStart && selectionEnd) {
-      newCode = replaceRange(currentCode, selectionStart, selectionEnd, aout[0]);
-    } else {
-      newCode = aout[0];
-    }
+    newCode = replaceRange(currentCode, selectionStart, selectionEnd, aout[0]);
   }
   return { newCode, answer };
 }
