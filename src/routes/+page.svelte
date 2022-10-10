@@ -69,6 +69,7 @@
       </div>
       <div>
         <div class="history">
+          <div class="new-link-area"><a class="new-link" href="/">restart</a></div>
           <Interactions interactions={data.interactions} />
           <Interactions {interactions} />
         </div>
@@ -122,6 +123,18 @@
 </div>
 
 <style>
+  .new-link-area {
+    text-align: right;
+    font-size: small;
+  }
+
+  .new-link {
+    height: 20px;
+    color: #bbb;
+    background-color: #333;
+    padding: 4px;
+    border-radius: 2px;
+  }
 
   .mainarea {
     width: 100%;

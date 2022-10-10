@@ -21,10 +21,11 @@
     </div>
     <div class="interaction-chat ai-answer">
       <div class="answer">{interaction.answer}</div>
-      <div class="share-links">
+      <div class="share-links"><span class="surroundings">
         <a class="fork-link" href="/?gen={interaction.gen}#!">revert</a> |
         <a class="fork-link" target="_blank" href="/?gen={interaction.gen}#!">fork</a> |
         <a class="fork-link" href="" onclick="navigator.clipboard.writeText(`https://codact.dev/?gen={interaction.gen}`)">permalink</a>
+        </span>
       </div>
     </div>
   </div>
@@ -38,14 +39,15 @@
     color: #bbb;
     font-size: x-small;
     text-align: right;
-    margin-bottom: 5px;    
+    margin-bottom: 5px;   
+
   }
 
   .answer {
     margin-left: 14px;
     margin-bottom: 5px;
     font-size : smaller;
-    line-height: 15px;
+    line-height: 16px;
   }
 
   .fork-link{
@@ -56,6 +58,7 @@
     display:flex;
     flex-direction: column;
   }
+
   .interaction-chat.ai-answer {
     align-items: start;
     padding-top: 5px;
