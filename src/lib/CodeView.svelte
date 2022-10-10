@@ -15,6 +15,18 @@
   export let selectionEnd = 0;
   export let gencode : string = "";
 
+  const editorTheme = EditorView.theme({
+    "&": {
+    color: "white",
+    backgroundColor: "#2a2a2a"
+  },
+  ".cm-gutters": {
+    backgroundColor: "#445",
+    color: "#ddd",
+    border: "none"
+  }
+  })
+
   const basicSetup = /*@__PURE__*/(() => [
     lineNumbers(),
     highlightActiveLineGutter(),
@@ -27,6 +39,7 @@
         ...defaultKeymap,
         ...foldKeymap
     ]),
+    editorTheme,
     oneDark
 ])();
 
@@ -52,7 +65,7 @@
     }else{
       const editorElement = document.getElementsByClassName("left-column");
       editorElement[0].classList.add("illegal-key");
-      setTimeout(() => editorElement[0].classList.remove("illegal-key"), 500);
+      setTimeout(() => editorElement[0].classList.remove("illegal-key"), 100);
     }
   }
 

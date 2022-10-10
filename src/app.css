@@ -114,14 +114,15 @@ button:focus:not(:focus-visible) {
 }
 
 .cm-selectionBackground {
-  background-color: rgba(82, 107, 249, 0.3) !important;
+  background-color: #67ffed37 !important;
 }
 
 .cm-cursor {
   display: block !important;
-  border-left: 2px solid blue !important;  
+  border-left: 4px solid rgba(0, 247, 255, 0.9) !important;  
 } 
 
+/* LAYOUT */
 .right-column {
   flex:1;
   display:flex;
@@ -181,6 +182,11 @@ button:focus:not(:focus-visible) {
   background: rgba(255, 255, 255, 0);
 }
 
-.illegal-key{
-  border-color: red;
+
+.illegal-key {
+  border-color: rgba(255, 40, 40, 1);
+}
+
+.illegal-key .cm-editor {
+  background-color: rgba(50, 40, 40, 1) !important;
 }
