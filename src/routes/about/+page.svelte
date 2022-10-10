@@ -2,24 +2,23 @@
 	import { browser } from '$app/environment';	
 	import mixpanel from 'mixpanel-browser';
 	$: if (browser) { 
-		mixpanel.init('705a7eef381e043f43ca111a0b4d067e', {debug: import.meta.env.DEV, ignore_dnt: true});
+		mixpanel.init('705a7eef381e043f43ca111a0b4d067e', {debug: import.meta.env.DEV, ignore_dnt: true, api_host: "https://api.mixpanel.com"});
 	    mixpanel.track('about.load');
   	}
 </script>
 
 <svelte:head>
 	<title>Codact README</title>
-	<meta name="description" content="About this app" />
+	<meta name="description" content="About codact" />
 </svelte:head>
 
 <div class="content">
-	<h1>About this app</h1>
+	<h1>About Codact</h1>
 
 	<p>
-		Hello peeps! This is a <a href="https://kit.svelte.dev">SvelteKit</a> app. You can make your own by typing the
-		following into your command line and following the prompts:
+		Codact.dev is a new way to code for creating code by to an AI. Using it is pretty simple:
 	</p>
-
+	<p> 1. tell codact </p>
 	<pre>npm create svelte@latest</pre>
 
 	<p>
