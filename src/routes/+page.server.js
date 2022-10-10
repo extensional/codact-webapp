@@ -1,6 +1,5 @@
-import { page } from '$app/stores';
-import { error, redirect } from '@sveltejs/kit';
-import { api } from './api';
+import { error } from '@sveltejs/kit';
+import * as api from '$lib/codegen';
 
 import { PrismaClient } from '@prisma/client';
 
@@ -26,7 +25,7 @@ export const load = async ({ params, locals, url }) => {
       }
     });
     if (!recent) throw error(404);
-
+    
     return {
       interactions: recent.history.concat([recent]),
       generatedCode: recent.code,
@@ -99,33 +98,23 @@ function replaceRange(s, start, end, substitute) {
   return s.substring(0, start) + substitute + s.substring(end, s.length);
 }
 
-async function getCodeAndAnswer(recent, selectionStart, selectionEnd, question) {
-  const codeSelection = recent?.code.slice(selectionStart, selectionEnd) || '';
-  const response = await api('POST', `prompt/question`, {
-    question
-  });
-  const isInfo = await response.json();
+async function getCodeAndAnswer(recent, selectionStart, selectionEnd, q) {
+  const selection = recent?.code.slice(selectionStart, selectionEnd) || '';
+
+  const isInfo = await api.promptYesNo(q);
+
   const currentCode = recent?.code || '';
   let answer;
   let newCode;
-
+  const code = recent?.code || '';
+  const setup = {code, selection, q };
   if (isInfo) {
-    const response = await api('POST', `prompt/answer`, {
-      textInDoc: recent?.code || '',
-      textInSelection: codeSelection,
-      question
-    });
-    answer = await response.json();
+    answer = await api.answer(setup);
     newCode = currentCode;
   } else {
-    let res = await api('POST', `prompt/completion`, {
-      textInDoc: recent?.code || '',
-      textInSelection: codeSelection,
-      question
-    });
-    const aout = await res.json();
+    let aout = await api.completionEdit(setup);
     answer = 'I generated the code you asked for!';
-    newCode = replaceRange(currentCode, selectionStart, selectionEnd, aout[0]);
+    newCode = replaceRange(currentCode, selectionStart, selectionEnd, (aout ?? [""])[0]);
   }
   return { newCode, answer };
 }
