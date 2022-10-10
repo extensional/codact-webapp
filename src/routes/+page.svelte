@@ -46,7 +46,7 @@
 
 <svelte:head>
   <title>Codact - {data.title}</title>
-  <meta name="description" content="A todo list app" />
+  <meta name="description" content="Codact: interactive AI coding" />
 </svelte:head>
 
 <div class="mainarea">
