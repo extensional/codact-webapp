@@ -1,8 +1,11 @@
 <script>
   import { scale } from 'svelte/transition';
   import { flip } from 'svelte/animate';
-  import forkSvg from "$lib/assets/fork.svg"
   export let interactions;
+
+  function copyToClipboard() {
+    
+  }
 </script>
 
 {#key interactions}
@@ -17,31 +20,46 @@
        > {interaction.question}
     </div>
     <div class="interaction-chat ai-answer">
-      <a class="fork-link" href="/?gen={interaction.gen}#!"><img class="fork-icon" src={forkSvg}/></a>
-      {interaction.answer}
-      <span class="tool-tip-text">Click here to fork at this point</span>
+      <div class="answer">{interaction.answer}</div>
+      <div class="share-links">
+        <a class="fork-link" href="/?gen={interaction.gen}#!">revert</a> |
+        <a class="fork-link" target="_blank" href="/?gen={interaction.gen}#!">fork</a> |
+        <a class="fork-link" href="" onclick="navigator.clipboard.writeText(`https://codact.dev/?gen={interaction.gen}`)">permalink</a>
+      </div>
     </div>
   </div>
 {/each}
 {/key}
 
 <style>
-  .fork-link{
-    background-color: #B59FD8;
-    border-radius: 5px;
-    margin-right: 40px;
+  .share-links {
+    padding-top: 1px;
+    padding-right: 0px;
+    color: #bbb;
+    font-size: x-small;
+    text-align: right;
+    margin-bottom: 5px;    
   }
+
+  .answer {
+    margin-left: 14px;
+    margin-bottom: 5px;
+    font-size : smaller;
+    line-height: 15px;
+  }
+
+  .fork-link{
+    color: #bbb;
+  }
+
   .interaction{
     display:flex;
     flex-direction: column;
   }
-  .interaction-chat{
-    padding:10px 15px;
-    width: fit-content;
-    display:flex;
+  .interaction-chat.ai-answer {
     align-items: start;
-    margin: 5px 0 ;
-    max-width:75%;
+    padding-top: 5px;
+    width: 100%;    
   }
   .user-question{
     color: #A2C799;
