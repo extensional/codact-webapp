@@ -9,11 +9,7 @@
   import type { PageData } from './$types';
   import type { Interaction } from '@prisma/client';
   import CodeView from '$lib/CodeView.svelte';
-<<<<<<< HEAD
   import { browser } from '$app/environment';
-  import {onMount} from "svelte";
-=======
->>>>>>> c8914d5 (loading animation)
 
   export let data: PageData;
 
