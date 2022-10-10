@@ -14,7 +14,7 @@ export const load = async ({ params, locals, url }) => {
   if (!gen || gen == '') {
     return {
       interactions: [],
-      title: 'Fresh'
+      title: 'New'
     };
   }
   try {
@@ -112,7 +112,7 @@ async function getCodeAndAnswer(recent, selectionStart, selectionEnd, q) {
     newCode = code;
   } else {
     let aout = await api.completionEdit(setup);
-    answer = 'sure!';
+    answer = selection == "" ? 'Inserted at the cursor! ...you can also tell me what you want replaced by selecting it.' : 'sure!';
     newCode = replaceRange(code, selectionStart, selectionEnd, (aout ?? [""])[0]);
   }
   return { newCode, answer };
