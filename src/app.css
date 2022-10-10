@@ -113,6 +113,15 @@ button:focus:not(:focus-visible) {
   visibility: visible;
 }
 
+.cm-selectionBackground {
+  background-color: rgba(255, 0, 0, 0.3) !important;
+}
+
+.cm-cursor {
+  display: block !important;
+  border-left: 2px solid red !important;  
+} 
+
 .right-column {
   flex:1;
   display:flex;
