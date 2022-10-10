@@ -40,6 +40,7 @@
   $: if (browser) {
     window.mixpanel.track('Codact.load', {data, gen, gencode});      
   };
+  let question = "";
 
 </script>
 
@@ -54,19 +55,7 @@
   </div>
   
   <div class="right-column">
-    <div class={isLoading ? "chat chat-loading" : "chat"} id="chatWindow">
-      <div class="loading-animation">
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-      </div>
+    <div class="chat" id="chatWindow">
       <div>
         <div class="history">
           <div class="new-link-area"><a class="new-link" href="/">restart</a></div>
@@ -80,15 +69,15 @@
           method="POST"
           use:enhance={({ form, data, action, cancel }) => {
             window.mixpanel.track('Codact.push.init', {form, gen, gencode});
-            isLoading = true
+            isLoading = true;
+            console.log(data);
             return async ({ result, update }) => {
               window.mixpanel.track('Codact.push.result', {result, gen, gencode});
               isLoading = false
               if (!result.data) return;
 
-
               form.reset();
-              
+              question = "";              
               gen = result.data.gen;
               const newurl = `?gen=${gen}`;
               interactions = interactions.concat(result.data);
@@ -101,16 +90,23 @@
           <input type="hidden" name="selectionStart" value={selectionStart.toString()} />
           <input type="hidden" name="selectionEnd" value={selectionEnd.toString()} />
           <input type="hidden" name="selection" value="" />
-          >
+          > 
           <input
-            class="question"
+            class={isLoading ? "question uneditable" : "question"}
             name="question"
             aria-label="ask codact a question"
             placeholder="How can I help you?"
+            readonly={isLoading}
+            bind:value={question}
           />
         </form>
       </div>
     </div>
+    {#if (isLoading)}
+    <div class="loading-animation">
+      <div class="wave" />
+    </div>
+    {/if}
 
     <iframe
       title="Rendered Frame"
@@ -146,6 +142,9 @@
     height: 85vh;
   }
 
+  .uneditable {
+    color: #A2C799;
+  }
 
   input:focus-visible {
     border: none;
