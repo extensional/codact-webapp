@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 import * as api from '$lib/codegen';
 
-import {startCode} from './codeGlobals.js';
+import { startCode } from './codeGlobals.js';
 
 import { PrismaClient } from '@prisma/client';
 
@@ -27,7 +27,7 @@ export const load = async ({ params, locals, url }) => {
       }
     });
     if (!recent) throw error(404);
-    
+
     return {
       interactions: recent.history.concat([recent]),
       generatedCode: recent.code,
@@ -55,13 +55,13 @@ export const actions = {
 
     const recent = has_gen
       ? await prisma.interaction.findUnique({
-          where: {
-            gen: gen
-          },
-          include: {
-            history: true
-          }
-        })
+        where: {
+          gen: gen
+        },
+        include: {
+          history: true
+        }
+      })
       : null;
 
     const { newCode, answer } = await getCodeAndAnswer(
@@ -99,21 +99,27 @@ function replaceRange(s, start, end, substitute) {
 }
 
 async function getCodeAndAnswer(recent, selectionStart, selectionEnd, q) {
+
   const selection = recent?.code.slice(selectionStart, selectionEnd) || '';
 
-  const isInfo = await api.promptYesNo(q);
-
   const code = recent?.code || startCode;
-  let answer;
-  let newCode;
-  const setup = {code, selection, selectionStart, selectionEnd, q };
-  if (isInfo) {
-    answer = await api.answer(setup);
-    newCode = code;
-  } else {
-    let aout = await api.completionEdit(setup);
-    answer = selection == "" ? 'Inserted at the cursor! ...you can also tell me what you want replaced by selecting it.' : 'sure!';
-    newCode = replaceRange(code, selectionStart, selectionEnd, (aout ?? [""])[0]);
+  try {
+    const isInfo = await api.promptYesNo(q);
+
+    let answer;
+    let newCode;
+    const setup = { code, selection, selectionStart, selectionEnd, q };
+    if (isInfo) {
+      answer = await api.answer(setup);
+      newCode = code;
+    } else {
+      let aout = await api.completionEdit(setup);
+      answer = selection == "" ? 'Inserted at the cursor! ...you can also tell me what you want replaced by selecting it.' : 'sure!';
+      newCode = replaceRange(code, selectionStart, selectionEnd, (aout ?? [""])[0]);
+    }
+
+    return { newCode, answer };
+  } catch (e) {
+    return { newCode: code, answer: "Appologies, our servers are currently overloaded.  Try again tomorrow!" };
   }
-  return { newCode, answer };
 }
