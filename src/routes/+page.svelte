@@ -9,8 +9,11 @@
   import type { PageData } from './$types';
   import type { Interaction } from '@prisma/client';
   import CodeView from '$lib/CodeView.svelte';
+<<<<<<< HEAD
   import { browser } from '$app/environment';
   import {onMount} from "svelte";
+=======
+>>>>>>> c8914d5 (loading animation)
 
   export let data: PageData;
 
@@ -33,6 +36,7 @@
   let gencode = startCode;
   let selectionStart = 0;
   let selectionEnd = 0;
+  let isLoading = false; 
   $: {
     gencode = interactions.at(-1)?.code || data.interactions?.at(-1)?.code || startCode; 
   }
@@ -54,7 +58,19 @@
   </div>
   
   <div class="right-column">
-    <div class="chat" id="chatWindow">
+    <div class={isLoading ? "chat chat-loading" : "chat"} id="chatWindow">
+      <div class="loading-animation">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+      </div>
       <div>
         <div class="history">
           <Interactions interactions={data.interactions} />
@@ -67,14 +83,15 @@
           method="POST"
           use:enhance={({ form, data, action, cancel }) => {
             window.mixpanel.track('Codact.push.init', {form, gen, gencode});
-
+            isLoading = true
             return async ({ result, update }) => {
               window.mixpanel.track('Codact.push.result', {result, gen, gencode});
-
+              isLoading = false
               if (!result.data) return;
-    
+
+
               form.reset();
-    
+              
               gen = result.data.gen;
               const newurl = `?gen=${gen}`;
               interactions = interactions.concat(result.data);

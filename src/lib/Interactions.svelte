@@ -20,7 +20,6 @@
       <a class="fork-link" href="/?gen={interaction.gen}#!"><img class="fork-icon" src={forkSvg}/></a>
       {interaction.answer}
       <span class="tool-tip-text">Click here to fork at this point</span>
-      <!-- <a data-sveltekit-prefetch href="/?gen={interaction.gen}#!">fork@{interaction.gen}</a> -->
     </div>
   </div>
 {/each}
@@ -40,7 +39,7 @@
     padding:10px 15px;
     width: fit-content;
     display:flex;
-    align-items: center;
+    align-items: start;
     margin: 5px 0 ;
     max-width:75%;
   }
