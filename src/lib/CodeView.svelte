@@ -20,7 +20,7 @@
     highlightActiveLineGutter(),
     highlightSpecialChars(),
     foldGutter(),
-    drawSelection(),
+    drawSelection({ cursorBlinkRate: 0 }),
     EditorState.allowMultipleSelections.of(false),
     syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
     bracketMatching(),
@@ -33,67 +33,7 @@
 
   let editor: Element;
   let myView: EditorView;
-  class CursorWidget extends WidgetType {
-    constructor() {
-      super();
-    }
 
-    eq(other: CursorWidget) {
-      return true;
-    }
-
-    toDOM() {
-      const cursorElement = document.createElement('span');
-      cursorElement.style.borderLeftStyle = 'solid';
-      cursorElement.style.borderLeftWidth = '2px';
-      cursorElement.style.borderLeftColor = '#ff0000';
-      cursorElement.style.height = `10px`;
-      cursorElement.style.padding = '0';
-      cursorElement.style.zIndex = '0';
-      return cursorElement;
-    }
-
-    ignoreEvent() {
-      return false;
-    }
-  }
-
-  const cursor = Decoration.widget({
-    widget: new CursorWidget()
-  });
-
-  const addUnderline = StateEffect.define<{ from: number; to: number }>({
-    map: ({ from, to }, change) => ({ from: change.mapPos(from), to: change.mapPos(to) })
-  });
-
-  const underlineField = StateField.define<DecorationSet>({
-    create() {
-      return Decoration.none;
-    },
-    update(underlines, tr) {
-      underlines = Decoration.none; //underlines.map(tr.changes);
-      for (let e of tr.effects)
-        if (e.is(addUnderline)) {
-          underlines = underlines.update({
-            add: [cursor.range(e.value.from, e.value.from)]
-          });
-        }
-      return underlines;
-    },
-    provide: (f) => EditorView.decorations.from(f)
-  });
-
-  function underlineSelection(view: EditorView) {
-    let effects: StateEffect<unknown>[] = view.state.selection.ranges.map(({ from, to }) =>
-      addUnderline.of({ from, to })
-    );
-    if (!effects.length) return false;
-
-    if (!view.state.field(underlineField, false))
-      effects.push(StateEffect.appendConfig.of([underlineField]));
-    view.dispatch({ effects });
-    return true;
-  }
 
   export function updateSelect() {
     
@@ -102,7 +42,6 @@
     const range = selectrange ?? { from: doclen, to:doclen} ;
     selectionStart = range.from;
     selectionEnd = range.to;
-    underlineSelection(myView);
   }
 
   onMount(() => {

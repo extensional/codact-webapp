@@ -29,6 +29,7 @@
       interactions = [];
     if (!$url || $url.search == '') gen = null;
     else gen = $url.searchParams.get('gen');
+
   });
 
   let gencode = '';
