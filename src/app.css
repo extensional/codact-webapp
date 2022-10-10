@@ -114,12 +114,12 @@ button:focus:not(:focus-visible) {
 }
 
 .cm-selectionBackground {
-  background-color: rgba(255, 0, 0, 0.3) !important;
+  background-color: rgba(82, 107, 249, 0.3) !important;
 }
 
 .cm-cursor {
   display: block !important;
-  border-left: 2px solid red !important;  
+  border-left: 2px solid blue !important;  
 } 
 
 .right-column {
@@ -138,7 +138,6 @@ button:focus:not(:focus-visible) {
 
 .codeView {
   float: left;
-  background-color: lightgray;
   height:100%;
   display:flex;
   width: 100%;
@@ -180,4 +179,8 @@ button:focus:not(:focus-visible) {
   border: none;
   color: white;
   background: rgba(255, 255, 255, 0);
+}
+
+.illegal-key{
+  border-color: red;
 }
