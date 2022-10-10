@@ -31,10 +31,11 @@
   let gencode = '';
   let selectionStart = 0;
   let selectionEnd = 0;
-
   $: {
-    gencode = interactions.at(-1)?.code || data.interactions?.at(-1)?.code || '';
+    gencode = interactions.at(-1)?.code || data.interactions?.at(-1)?.code || ''; 
   }
+   
+  
 </script>
 
 <svelte:head>
@@ -48,42 +49,44 @@
   </div>
   
   <div class="right-column">
-    <div class="chat">
-      <div class="history">
-        <Interactions interactions={data.interactions} />
-        <Interactions {interactions} />
-      </div>
-      <form
-        id="usrform"
-        class="newchat"
-        action="/?gen={gen}#"
-        method="POST"
-        use:enhance={({ form, data, action, cancel }) => {
-          return async ({ result, update }) => {
-            if (!result.data) return;
-  
-            form.reset();
-  
-            gen = result.data.gen;
-            const newurl = `?gen=${gen}`;
-            interactions = interactions.concat(result.data);
-  
-            if (window.history.pushState) window.history.pushState(null, '', newurl);
-            else goto(newurl);
-          };
-        }}
-      >
-        <input type="hidden" name="selectionStart" value={selectionStart.toString()} />
-        <input type="hidden" name="selectionEnd" value={selectionEnd.toString()} />
-        <input type="hidden" name="selection" value="" />
+    <div class="chat" id="chatWindow">
+      <div>
+        <div class="history">
+          <Interactions interactions={data.interactions} />
+          <Interactions {interactions} />
+        </div>
+        <form
+          id="usrform"
+          class="newchat"
+          action="/?gen={gen}#"
+          method="POST"
+          use:enhance={({ form, data, action, cancel }) => {
+            return async ({ result, update }) => {
+              if (!result.data) return;
+    
+              form.reset();
+    
+              gen = result.data.gen;
+              const newurl = `?gen=${gen}`;
+              interactions = interactions.concat(result.data);
+    
+              if (window.history.pushState) window.history.pushState(null, '', newurl);
+              else goto(newurl);
+            };
+          }}
         >
-        <input
-          class="question"
-          name="question"
-          aria-label="ask codact a question"
-          placeholder="How can I help you?"
-        />
-      </form>
+          <input type="hidden" name="selectionStart" value={selectionStart.toString()} />
+          <input type="hidden" name="selectionEnd" value={selectionEnd.toString()} />
+          <input type="hidden" name="selection" value="" />
+          >
+          <input
+            class="question"
+            name="question"
+            aria-label="ask codact a question"
+            placeholder="How can I help you?"
+          />
+        </form>
+      </div>
     </div>
 
     <iframe
