@@ -14,7 +14,7 @@ export const load = async ({ params, locals, url }) => {
   if (!gen || gen == '') {
     return {
       interactions: [],
-      title: 'New'
+      title: 'untitled'
     };
   }
   try {
@@ -31,7 +31,7 @@ export const load = async ({ params, locals, url }) => {
     return {
       interactions: recent.history.concat([recent]),
       generatedCode: recent.code,
-      title: recent.gen
+      title: recent.title
     };
   } catch (e) {
     throw error(404);
@@ -78,6 +78,7 @@ export const actions = {
         selectionStart,
         selectionEnd,
         code: newCode,
+        title: form.get('title')?.toString() ?? 'untitled',
         history: {
           connect:
             recent?.history

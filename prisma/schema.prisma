@@ -12,8 +12,9 @@ datasource db {
 
 
 model Interaction {
-  gen        String     @default(cuid()) @id
+  gen        String    @default(cuid()) @id
   stamp     Int        @default(autoincrement())
+  title     String     @default("Untitled")
   question  String
   answer    String
   selectionStart Int

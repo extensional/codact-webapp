@@ -49,16 +49,16 @@
   <meta name="description" content="Codact: interactive AI coding" />
 </svelte:head>
 
+<h1 class="gen-title" contenteditable bind:textContent={data.title} />
+
 <div class="mainarea">
   <div class="left-column">
     <CodeView bind:selectionStart bind:selectionEnd bind:gencode />
   </div>
-  
   <div class="right-column">
     <div class="chat" id="chatWindow">
       <div>
         <div class="history">
-          <div class="new-link-area"><a class="new-link" href="/">restart</a></div>
           <Interactions interactions={data.interactions} />
           <Interactions {interactions} />
         </div>
@@ -90,6 +90,7 @@
           <input type="hidden" name="selectionStart" value={selectionStart.toString()} />
           <input type="hidden" name="selectionEnd" value={selectionEnd.toString()} />
           <input type="hidden" name="selection" value="" />
+          <input type="hidden" name="title" bind:value={data.title} />
           > 
           <input
             class={isLoading ? "question uneditable" : "question"}
@@ -119,6 +120,32 @@
 </div>
 
 <style>
+
+.gen-title {
+  font-size: small;
+  margin-top: -30px;  
+  padding-right: 2px;  
+  align-self: end;
+  text-align: right;
+  width: 200px;
+  color: pink;
+}
+
+.newchat {
+  margin: 0 0 0.5rem 0;
+  color: var(--beep-color);
+}
+
+.newchat input.question {
+  padding: 1em 0em 0em 0em;
+  width: 90%;
+  border: none;
+  color: white;
+  background: rgba(255, 255, 255, 0);
+}
+
+
+
   .new-link-area {
     text-align: right;
     font-size: small;

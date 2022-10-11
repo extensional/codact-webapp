@@ -19,10 +19,13 @@
 		fork and share your coding conversations.
 	</p>
 
-	<h1> Using Codact </h1>
+	<h1>Using Codact</h1>
 	<p> 1. Select where you want to insert code, or select what code you want modified. </p>
 	<p> 2. Tell codact what you want to do, create, or know. </p>
-	<p> 3. Click the fork icon to revert to a previous point in the code. </p>
+	<p> 3. Click permalink to copy a link to a point in the code conversation. </p>
+	<p> 4. Click fork to open a point in the code conversation in a new window. </p>
+	<p> 5. Click the pink title in the top right to edit the title of the code going forward </p>
+	
 
 	<h1> Disclaimer </h1>
 

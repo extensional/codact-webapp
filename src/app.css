@@ -175,20 +175,6 @@ button:focus:not(:focus-visible) {
 }
 
 
-.newchat {
-  margin: 0 0 0.5rem 0;
-  color: var(--beep-color);
-}
-
-.newchat input {
-  padding: 1em 0em 0em 0em;
-  width: 90%;
-  border: none;
-  color: white;
-  background: rgba(255, 255, 255, 0);
-}
-
-
 .illegal-key {
   border-color: rgba(255, 40, 40, 1);
 }
