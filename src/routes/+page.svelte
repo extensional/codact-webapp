@@ -49,7 +49,7 @@
   <meta name="description" content="Codact: interactive AI coding" />
 </svelte:head>
 
-<h1 class="gen-title" contenteditable bind:textContent={data.title} />
+<div class="gen-title">[ <span contenteditable bind:textContent={data.title} /> ]</div>
 
 <div class="mainarea">
   <div class="left-column">
@@ -123,12 +123,24 @@
 
 .gen-title {
   font-size: small;
-  margin-top: -30px;  
+  margin-top: -20px; 
+  margin-bottom: 2px; 
   padding-right: 2px;  
   align-self: end;
   text-align: right;
   width: 200px;
   color: pink;
+}
+
+.gen-title span {
+  color: lightgray;
+}
+
+.gen-title :focus-visible {
+  border: none;
+  outline: none;
+  caret-color: white;
+  color: gray;
 }
 
 .newchat {
