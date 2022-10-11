@@ -1,5 +1,14 @@
 <script>
+
+	import url from '$lib/url.js';
 	import { page } from '$app/stores';
+
+	let params = "";
+	$: if ($url) {
+		const gen =$url.searchParams.get('gen');
+		params = gen ? `?gen=${gen}` : "";		
+	}
+	
 </script>
 
 <header>
@@ -14,10 +23,15 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li class:active={$page.url.pathname === '/'}><a data-sveltekit-prefetch href="/">START CODACT</a></li>
-			<li class:active={$page.url.pathname === '/about'}>
-				<a data-sveltekit-prefetch href="/about">Readme</a>
+			<li ><a data-sveltekit-prefetch href="/">new</a></li>
+			{#key url}
+			<li class:active={$page.url.pathname === '/'}>
+				<a data-sveltekit-prefetch href="/{params}">edit</a>
 			</li>
+			<li class:active={$page.url.pathname === '/about'}>
+				<a data-sveltekit-prefetch href="/about{params}">Readme</a>
+			</li>
+			{/key}
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
 			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
