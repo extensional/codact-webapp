@@ -35,6 +35,8 @@ export const load = async ({ params, locals, url }) => {
         question: ""
       };
     } else {
+
+      console.log("SUP");
       const recent = await prisma.interaction.findUnique({
         where: {
           gen: gen
@@ -43,7 +45,6 @@ export const load = async ({ params, locals, url }) => {
           gen: true,
           title: true,
           question: true,
-          likes: true,
           successors: {
             select: {
               gen: true,
@@ -55,7 +56,6 @@ export const load = async ({ params, locals, url }) => {
           }
         }
       });
-
       if (!recent) throw error(404);
       return {
         interactions: recent.successors.filter(s => s._count.successors > 0),
@@ -64,6 +64,7 @@ export const load = async ({ params, locals, url }) => {
       };
     }
   } catch (e) {
+    console.log("E:", e);
     throw error(404);
   }
 

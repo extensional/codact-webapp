@@ -162,18 +162,6 @@ button:focus:not(:focus-visible) {
 }
 
 
-.chat {
-  border: 2px solid var(--beep-color) !important;
-  border-radius: 0px;
-  background-color: var(--primary-color);
-  padding: 10px;
-  overflow: auto;
-  height:100%;
-  display:flex;
-  flex-direction: column-reverse;
-  position: relative;
-}
-
 
 .illegal-key {
   border-color: rgba(255, 40, 40, 1);
