@@ -15,6 +15,7 @@ model Interaction {
   gen        String    @default(cuid()) @id
   stamp     Int        @default(autoincrement())
   title     String     @default("Untitled")
+  created   DateTime   @default(now())
   question  String
   answer    String
   selectionStart Int

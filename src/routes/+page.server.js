@@ -2,6 +2,7 @@ import { error } from '@sveltejs/kit';
 import * as api from '$lib/codegen';
 
 import { startCode } from './codeGlobals.js';
+import { dev } from '$app/environment';
 
 import { PrismaClient } from '@prisma/client';
 
@@ -64,7 +65,7 @@ export const actions = {
       })
       : null;
 
-    const { newCode, answer } = await getCodeAndAnswer(
+    const { newCode, answer } = dev ? { newCode: recent?.code ?? startCode, answer : `answer ${gen} - ${question}`} : await getCodeAndAnswer(
       recent,
       selectionStart,
       selectionEnd,
@@ -91,6 +92,7 @@ export const actions = {
     });
     if (!newintr) throw error(404);
 
+    newintr.created = newintr.created.toString();
     return newintr;
   }
 };

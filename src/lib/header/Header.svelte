@@ -2,14 +2,18 @@
 
 	import url from '$lib/url.js';
 	import { page } from '$app/stores';
+    import { invalidateAll } from '$app/navigation';
+	
+	// THIS IS THE PATTERN
+	let gen = "";
+	$: if ($url || $page.url) 
+		gen = ($url ? $url : $page.url).searchParams.get('gen');
 
 	let params = "";
-	$: if ($url) {
-		const gen =$url.searchParams.get('gen');
-		params = gen ? `?gen=${gen}` : "";		
-	}
-	
+	$: params = gen ? `?gen=${gen}` : "";
 </script>
+
+<svelte:window on:popstate={(e) => invalidateAll()} />
 
 <header>
 	<div class="corner">
@@ -28,9 +32,9 @@
 			<li class:active={$page.url.pathname === '/'}>
 				<a data-sveltekit-prefetch href="/{params}">edit</a>
 			</li>
-			<!-- <li class:active={$page.url.pathname === '/forks'}>
+			<li class:active={$page.url.pathname === '/forks'}>
 				<a data-sveltekit-prefetch href="/forks{params}">{ params == "" ? 'showcase' : 'forks'}</a>
-			</li> -->
+			</li>
 			<li class:active={$page.url.pathname === '/about'}>
 				<a data-sveltekit-prefetch href="/about{params}">Readme</a>
 			</li>

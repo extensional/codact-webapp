@@ -3,21 +3,32 @@
   import {startCode} from './codeGlobals.js';
   import { page } from '$app/stores';
   import { enhance } from '$app/forms';
-  import { goto } from '$app/navigation';
+  import { goto, invalidateAll } from '$app/navigation';
   import Interactions from '$lib/Interactions.svelte';
-  import { canvasWrapperGenerator } from './canvasWrapperGenerator';
+  import { canvasWrapperGenerator } from '$lib/canvasWrapperGenerator';
   import type { PageData } from './$types';
   import type { Interaction } from '@prisma/client';
   import CodeView from '$lib/CodeView.svelte';
   import { browser } from '$app/environment';
 
   export let data: PageData;
-
+  
+  
+	/*let gen = null;
+	$: if ($url || $page.url) {
+    console.log("URL:", $url);
+		gen = ($url ? $url : $page.url).searchParams.get('gen');
+  }*/
+  
   let gen = $page.url.searchParams.get('gen');
 
 
   let interactions: Interaction[] = [];
-
+/*
+  $: if ( !gen || gen != interactions.at(-1)?.gen)
+    interactions = [];
+  */
+  
   url.subscribe(() => {
     if (
       interactions.length > 0 &&
@@ -26,8 +37,8 @@
       interactions = [];
     if (!$url || $url.search == '') gen = null;
     else gen = $url.searchParams.get('gen');
-
   });
+  
 
   let gencode = startCode;
   let selectionStart = 0;
@@ -44,12 +55,17 @@
 
 </script>
 
+<svelte:window on:popstate={(e) => {
+  invalidateAll(); 
+  interactions = [];
+  }} />
+
 <svelte:head>
   <title>Codact - {data.title}</title>
   <meta name="description" content="Codact: interactive AI coding" />
 </svelte:head>
 
-<div class="gen-title">[ <span contenteditable bind:textContent={data.title} /> ]</div>
+<div class="gen-title"><span class="gen-part">{gen ? gen.slice(18).concat(' '): ''}</span>[ <span class="title-part" contenteditable bind:textContent={data.title} /> ]</div>
 
 <div class="mainarea">
   <div class="left-column">
@@ -59,8 +75,8 @@
     <div class="chat" id="chatWindow">
       <div>
         <div class="history">
-          <Interactions interactions={data.interactions} />
-          <Interactions {interactions} />
+          <Interactions bind:gen bind:interactions={data.interactions} />
+          <Interactions bind:gen bind:interactions={interactions} />
         </div>
         <form
           id="usrform"
@@ -128,7 +144,7 @@
   padding-right: 2px;  
   align-self: end;
   text-align: right;
-  width: 200px;
+  width: 400px;
   color: pink;
 }
 
@@ -136,7 +152,7 @@
   color: lightgray;
 }
 
-.gen-title :focus-visible {
+.gen-title span.title-part:focus-visible {
   border: none;
   outline: none;
   caret-color: white;

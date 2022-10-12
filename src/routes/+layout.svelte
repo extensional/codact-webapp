@@ -1,6 +1,8 @@
 <script>
   import Header from '$lib/header/Header.svelte';
   import '../app.css';
+  import { dev, browser } from '$app/environment';
+  $: if (dev && browser) window.mixpanel.track = function () { }
 </script>
 
 <Header />

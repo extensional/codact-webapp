@@ -2,10 +2,7 @@
   import { scale } from 'svelte/transition';
   import { flip } from 'svelte/animate';
   export let interactions;
-
-  function copyToClipboard() {
-    
-  }
+  export let gen = "";
 </script>
 
 {#key interactions}
@@ -22,9 +19,11 @@
     <div class="interaction-chat ai-answer">
       <div class="answer">{interaction.answer}</div>
       <div class="share-links"><span class="surroundings">
-        <a class="fork-link" href="/?gen={interaction.gen}#!">revert</a> |
-        <a class="fork-link" target="_blank" href="/?gen={interaction.gen}#!">fork</a> |
-        <span class="fork-link" onclick="navigator.clipboard.writeText(`https://codact.dev/?gen={interaction.gen}`)">permalink</span>
+        {#if (gen != interaction.gen)} <a class="fork-link" href="/?gen={interaction.gen}">revert</a> | 
+        <!-- <a class="fork-link" target="_blank" href="/?gen={interaction.gen}#!">copy permalink</a> | -->
+        {/if}
+        <a class="fork-link" href="/forks?gen={interaction.gen}">forks</a> |
+        <span class="fork-link" onclick="navigator.clipboard.writeText(`https://codact.dev/?gen={interaction.gen}`)">copy url</span>
         </span>
       </div>
     </div>
@@ -33,6 +32,7 @@
 {/key}
 
 <style>
+
   .share-links {
     padding-top: 1px;
     padding-right: 0px;
