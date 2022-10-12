@@ -4,10 +4,11 @@
 	import { page } from '$app/stores';
     import { invalidateAll } from '$app/navigation';
 	
+	import { browser } from '$app/environment';
 	// THIS IS THE PATTERN
 	let gen = "";
-	$: if ($url || $page.url) 
-		gen = ($url ? $url : $page.url).searchParams.get('gen');
+	$: if ((browser && $url) || $page.url) 
+		gen = ((browser && $url) ? $url : $page.url).searchParams.get('gen');
 
 	let params = "";
 	$: params = gen ? `?gen=${gen}` : "";
