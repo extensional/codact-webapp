@@ -90,7 +90,7 @@ export const actions = {
               .concat(recent ? [{ gen: recent.gen }] : []) ?? []
         },
         parent: {
-          connect: recent?.gen
+          connect: recent? [{ gen: recent?.gen}] : []
         }
       }
     });
