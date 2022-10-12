@@ -78,6 +78,7 @@ export const actions = {
         answer,
         selectionStart,
         selectionEnd,
+        debug: dev, 
         code: newCode,
         title: form.get('title')?.toString() ?? 'untitled',
         history: {
@@ -87,6 +88,9 @@ export const actions = {
                 return { gen: a.gen };
               })
               .concat(recent ? [{ gen: recent.gen }] : []) ?? []
+        },
+        parent: {
+          connect: recent?.gen
         }
       }
     });

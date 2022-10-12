@@ -16,6 +16,7 @@ model Interaction {
   stamp     Int        @default(autoincrement())
   title     String     @default("Untitled")
   created   DateTime   @default(now())
+  debug     Boolean    @default(true)
   question  String
   answer    String
   selectionStart Int
@@ -24,5 +25,9 @@ model Interaction {
 
   history Interaction[] @relation("histories")
   successors Interaction[] @relation("histories")
+
+
+  parent Interaction[] @relation("tree")
+  children Interaction[] @relation("tree")
 }
 
