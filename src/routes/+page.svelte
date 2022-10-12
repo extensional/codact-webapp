@@ -213,6 +213,23 @@
     display: flex;
     flex-direction: column-reverse;
     position: relative;
-    max-width: 400px; 
   }
+
+  .right-column {
+  flex:1;
+  display:flex;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 5px;
+  max-width: 400px;
+}
+
+.left-column{
+  flex: 1;
+  overflow: auto;
+  border-radius: 0px;
+  margin-right: 5px;
+  border: var(--beep-color) 2px solid;
+  
+}
 </style>
