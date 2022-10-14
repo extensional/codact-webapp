@@ -15,8 +15,6 @@
 
   export let data: PageData;
 
-
-
   async function apiCall(call, body) {
     const response = await fetch(`/api/` + call, {
       method: 'POST',
@@ -77,13 +75,13 @@
   }
 
   function updateTitle(e) {
-    if (!gen || e.key != "Enter") return;
+    if (!gen || e.key != 'Enter') return;
     apiCall('updateTitle.json', {
       gen: gen,
       title: data.title
     });
     e.preventDefault();
-    document.body.focus();
+    document.getElementById("question")?.focus();
   }
 
   onMount(newUpdateTitle);
@@ -103,7 +101,12 @@
 
 <div class="gen-title">
   <span class="gen-part">{gen ? gen.slice(18).concat(' ') : ''}</span>[
-  <span class="title-part" contenteditable bind:textContent={data.title} on:keypress={updateTitle} />
+  <span
+    class="title-part"
+    contenteditable
+    bind:textContent={data.title}
+    on:keypress={updateTitle}
+  />
   ]
 </div>
 
@@ -151,6 +154,7 @@
           <input type="hidden" name="title" bind:value={data.title} />
           >
           <input
+            id="question"
             class={isLoading ? 'question uneditable' : 'question'}
             name="question"
             aria-label="ask codact a question"
