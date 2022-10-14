@@ -15,7 +15,7 @@ export async function POST({ request }) {
     const completion = await api.openai.createCompletion({
         model: 'text-davinci-002',
         temperature: 1,
-        max_tokens: 7,
+        max_tokens: 6,
         n: 1,
         prompt
       });
@@ -35,7 +35,7 @@ export async function POST({ request }) {
     prisma.interaction.update({
       where: { gen: gen },
       data : { title: newtitle}
-    });
+    }).then(t => {console.log("updated")});
 
 
     return json({ title: newtitle });
