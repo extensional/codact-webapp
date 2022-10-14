@@ -6,7 +6,7 @@ dotenv.config();
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY
 });
-const openai = new OpenAIApi(configuration);
+export const openai = new OpenAIApi(configuration);
 
 interface QuestionInput {
   code: string;
@@ -37,6 +37,10 @@ export async function answer({ code, selection, q }: QuestionInput) {
   });
   const compl = completion.data.choices === undefined ? '' : completion.data.choices[0].text;
   return compl === undefined ? '' : compl;
+}
+
+export async function updateTitle(gen, gencode) {
+  return "hoi";
 }
 
 export async function promptYesNo(question: string) {

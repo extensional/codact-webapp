@@ -1,5 +1,7 @@
 <script lang="ts">
   import url from '$lib/url.js';
+
+  import { onMount } from 'svelte';
   import { startCode } from './codeGlobals.js';
   import { page } from '$app/stores';
   import { enhance } from '$app/forms';
@@ -41,6 +43,7 @@
   let selectionStart = 0;
   let selectionEnd = 0;
   let isLoading = false;
+
   $: {
     gencode = interactions.at(-1)?.code || data.interactions?.at(-1)?.code || startCode;
   }
@@ -49,6 +52,27 @@
     window.mixpanel.track('Codact.load', { data, gen, gencode });
   }
   let question = '';
+
+  function newUpdateTitle() {
+    if (!gen || data.title != 'untitled') return;
+    fetch(`/api/updateTitle.json`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        gen: gen,
+        code: gencode
+      })
+    }).then((f) =>
+      f.json().then((t) => {
+        console.log("t:", t)
+        data.title = t.title;
+      })
+    );
+  }
+
+  onMount(newUpdateTitle);
 </script>
 
 <svelte:window
@@ -101,6 +125,8 @@
 
               if (window.history.pushState) window.history.pushState(null, '', newurl);
               else goto(newurl);
+
+              newUpdateTitle();
             };
           }}
         >
@@ -216,20 +242,19 @@
   }
 
   .right-column {
-  flex:1;
-  display:flex;
-  flex-direction: column;
-  width: 100%;
-  margin-left: 5px;
-  max-width: 400px;
-}
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 5px;
+    max-width: 400px;
+  }
 
-.left-column{
-  flex: 1;
-  overflow: auto;
-  border-radius: 0px;
-  margin-right: 5px;
-  border: var(--beep-color) 2px solid;
-  
-}
+  .left-column {
+    flex: 1;
+    overflow: auto;
+    border-radius: 0px;
+    margin-right: 5px;
+    border: var(--beep-color) 2px solid;
+  }
 </style>

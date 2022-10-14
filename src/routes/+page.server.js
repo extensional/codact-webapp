@@ -65,12 +65,14 @@ export const actions = {
       })
       : null;
 
-    const { newCode, answer } = dev ? { newCode: recent?.code ?? startCode, answer : `answer ${gen} - ${question}`} : await getCodeAndAnswer(
-      recent,
-      selectionStart,
-      selectionEnd,
-      question
-    );
+    // comment to use OpenAI in dev
+    const { newCode, answer } = dev ? { newCode: recent?.code ?? startCode, answer : `answer ${gen} - ${question}`} : 
+      await getCodeAndAnswer(
+        recent,
+        selectionStart,
+        selectionEnd,
+        question
+      );
 
     const newintr = await prisma.interaction.create({
       data: {
@@ -97,6 +99,7 @@ export const actions = {
     if (!newintr) throw error(404);
 
     newintr.created = newintr.created.toString();
+    
     return newintr;
   }
 };
