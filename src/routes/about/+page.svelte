@@ -1,5 +1,6 @@
 <script>
 	import { browser } from '$app/environment';	
+	
 	$: if (browser) { 
 	    window.mixpanel.track('about.load'); // mixpanel loaded direclty in app.html
   	}

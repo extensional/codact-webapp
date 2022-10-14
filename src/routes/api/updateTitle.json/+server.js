@@ -13,7 +13,7 @@ export async function POST({ request }) {
     prisma.interaction.update({
       where: { gen: gen },
       data : { title: newtitle}
-    }).then(t => {console.log("updated")});
+    }).then(t => {console.log("updated:", newtitle)});
 
     return json({});
 }

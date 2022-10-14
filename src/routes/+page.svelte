@@ -15,15 +15,18 @@
 
   export let data: PageData;
 
-async function apiCall(call, body){
-  const response = await fetch(`/api/`+call, {
+
+
+  async function apiCall(call, body) {
+    const response = await fetch(`/api/` + call, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(body)});
-  return await response.json();
-}
+      body: JSON.stringify(body)
+    });
+    return await response.json();
+  }
 
   /*let gen = null;
 	$: if ($url || $page.url) {
@@ -65,10 +68,22 @@ async function apiCall(call, body){
 
   function newUpdateTitle() {
     if (!gen || data.title != 'untitled') return;
-    apiCall('autoupdatetitle.json', {
-        gen: gen,
-        code: gencode
-      }).then(({title}) => { data.title = title});
+    apiCall('autoUpdateTitle.json', {
+      gen: gen,
+      code: gencode
+    }).then(({ title }) => {
+      data.title = title;
+    });
+  }
+
+  function updateTitle(e) {
+    if (!gen || e.key != "Enter") return;
+    apiCall('updateTitle.json', {
+      gen: gen,
+      title: data.title
+    });
+    e.preventDefault();
+    document.body.focus();
   }
 
   onMount(newUpdateTitle);
@@ -88,7 +103,8 @@ async function apiCall(call, body){
 
 <div class="gen-title">
   <span class="gen-part">{gen ? gen.slice(18).concat(' ') : ''}</span>[
-  <span class="title-part" contenteditable bind:textContent={data.title} /> ]
+  <span class="title-part" contenteditable bind:textContent={data.title} on:keypress={updateTitle} />
+  ]
 </div>
 
 <div class="mainarea">

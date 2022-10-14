@@ -5,7 +5,7 @@
 
   import type { PageData } from './$types';
   import { browser } from '$app/environment';
-
+  
   export let data: PageData;
 
   let gen = $page.url.searchParams.get('gen');
