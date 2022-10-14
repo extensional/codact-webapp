@@ -15,6 +15,16 @@
 
   export let data: PageData;
 
+async function apiCall(call, body){
+  const response = await fetch(`/api/`+call, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)});
+  return await response.json();
+}
+
   /*let gen = null;
 	$: if ($url || $page.url) {
     console.log("URL:", $url);
@@ -55,21 +65,10 @@
 
   function newUpdateTitle() {
     if (!gen || data.title != 'untitled') return;
-    fetch(`/api/updateTitle.json`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+    apiCall('autoupdatetitle.json', {
         gen: gen,
         code: gencode
-      })
-    }).then((f) =>
-      f.json().then((t) => {
-        console.log("t:", t)
-        data.title = t.title;
-      })
-    );
+      }).then(({title}) => { data.title = title});
   }
 
   onMount(newUpdateTitle);
