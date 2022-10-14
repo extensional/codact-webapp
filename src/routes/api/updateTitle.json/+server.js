@@ -8,12 +8,12 @@ const prisma = new PrismaClient();
 
 export async function POST({ request }) {
   
-    const {gen, newtitle} = await request.json();
+    const {gen, title} = await request.json();
 
     prisma.interaction.update({
       where: { gen: gen },
-      data : { title: newtitle}
-    }).then(t => {console.log("updated:", newtitle)});
+      data : { title: title}
+    }).then(t => {console.log("updated:", title)});
 
     return json({});
 }
