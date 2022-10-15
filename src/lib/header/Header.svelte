@@ -32,9 +32,11 @@
 			<li class:active={$page.url.pathname === '/'}>
 				<a data-sveltekit-prefetch href="/{params}">edit</a>
 			</li>
+			{#if params != ""}
 			<li class:active={$page.url.pathname === '/forks'}>
 				<a data-sveltekit-prefetch href="/forks{params}">{ params == "" ? 'showcase' : 'forks'}</a>
 			</li>
+			{/if}
 			<li class:active={$page.url.pathname === '/about'}>
 				<a data-sveltekit-prefetch href="/about{params}">Readme</a>
 			</li>
