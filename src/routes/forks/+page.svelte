@@ -26,28 +26,27 @@
 
 <div class="content">
   <h1><span class="title-area"><span class="title">{data.title}</span> <span class="title-gen">{gen?.slice(18) ?? ""}</span></span></h1>
+  <div class="interactions-display">
 
-  {#each data.interactions as interaction (interaction.gen)}
-  <div class="interaction">
-    <div class="interaction-info">
-      <a href="/?gen={interaction.gen}">
-        <span class="title">{interaction.title}</span>
-      </a>
-      <a href="/?gen={interaction.gen}">
-        <span class="title-gen">{interaction.gen.slice(18)}</span>
-      </a>
-    </div>
-    <iframe
+    {#each data.interactions as interaction (interaction.gen)}
+    <div class="interaction">
+      <div class="interaction-info">
+        <a href="/?gen={interaction.gen}">
+          <span class="title">{interaction.title}</span>
+        </a>
+        <!-- <a href="/?gen={interaction.gen}">
+          <span class="title-gen">{interaction.gen.slice(18)}</span>
+        </a> -->
+      </div>
+      <iframe
       title="Rendered Frame"
       srcdoc={canvasWrapperGenerator(interaction.code)}
       class="small_render"
-    />
-    <div class="interaction-info">
-      <span class="prompt">>>> </span><span class="question">{interaction.question}</span>
+      />
+      
     </div>
-    
+    {/each}
   </div>
-  {/each}
 </div>
 
 <style>  
@@ -80,29 +79,31 @@
 
   .content {
     width: 100%;
+    align-items: center;
     max-width: var(--column-width);
     margin: 0 auto 0 auto;
   }
 
+  .interactions-display{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
 
   .interaction {
-    align-items: center;
-    text-align:center;
     margin-bottom: 10px;
-    width: 250px;
-    height: 250px;
-    align-self: center;
-
-    float: left;
     margin-left: 43px;
-
     margin-right: 43px;
+    flex: 1;
   }
 
   .small_render {
     align-self: center;
-    width: 250px;
-    height: 150px;
+    width:100%;
+    min-width: 250px;
+    height: 200px
   }
 
   .interaction-info {
