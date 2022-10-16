@@ -11,7 +11,7 @@
   import type { PageData } from './$types';
   import type { Interaction } from '@prisma/client';
   import CodeView from '$lib/CodeView.svelte';
-  import { browser } from '$app/environment';
+  import { dev, browser } from '$app/environment';
 
   export let data: PageData;
 
@@ -83,7 +83,14 @@
     e.preventDefault();
     document.getElementById("question")?.focus();
   }
-
+  let highlight_checked = data.highlight;
+  function updateSpecial(e) {
+    if (!gen) return;    
+    apiCall('updateSpecial.json', {
+      gen: gen,
+      highlight: !highlight_checked
+    });
+  }
   onMount(newUpdateTitle);
 </script>
 
@@ -100,6 +107,10 @@
 </svelte:head>
 
 <div class="gen-title">
+  {#if (dev)}
+    highlight: 
+    <input input type="checkbox" class="highlight-checkbox" on:change={updateSpecial} bind:checked={highlight_checked} />
+  {/if}
   <span class="gen-part">{gen ? gen.slice(18).concat(' ') : ''}</span>[
   <span
     class="title-part"

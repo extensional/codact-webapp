@@ -14,7 +14,7 @@ export const load = async ({ params, locals, url }) => {
   try {
     if (!gen || gen == '') {
       let recents = await prisma.interaction.findMany({
-        where: dev ?{} : { debug: false },
+        where: dev ?{ highlight : true } : { highlight : true , debug: false },
         select: {
           gen: true,
           title: true,

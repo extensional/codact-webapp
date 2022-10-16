@@ -17,6 +17,7 @@ model Interaction {
   title     String     @default("Untitled")
   created   DateTime   @default(now())
   debug     Boolean    @default(true)
+  highlight     Boolean    @default(false)
   question  String
   answer    String
   selectionStart Int

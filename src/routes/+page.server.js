@@ -15,6 +15,7 @@ export const load = async ({ params, locals, url }) => {
   if (!gen || gen == '') {
     return {
       interactions: [],
+      highlight: false,
       title: 'untitled'
     };
   }
@@ -32,6 +33,7 @@ export const load = async ({ params, locals, url }) => {
     return {
       interactions: recent.history.concat([recent]),
       generatedCode: recent.code,
+      highlight: recent.highlight,
       title: recent.title
     };
   } catch (e) {
