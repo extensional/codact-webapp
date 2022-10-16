@@ -238,7 +238,7 @@
     flex-direction: row;
     height: 85vh;
   }
-
+  
   .uneditable {
     color: #a2c799;
   }
@@ -275,5 +275,20 @@
     border-radius: 0px;
     margin-right: 5px;
     border: var(--beep-color) 2px solid;
+  }
+
+  @media (max-width: 720px){
+    .mainarea{
+      flex-direction: column;
+    }
+    .right-column {
+      width: 100%;
+      margin-left: 0;
+      max-width: none;
+    }
+    .left-column{
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
   }
 </style>
