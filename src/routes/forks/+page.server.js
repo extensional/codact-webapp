@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 /** @type {import('./$types').PageServerLoad} */
 export const load = async ({ params, locals, url }) => {
   // locals.userid comes from src/hooks.js
-  const gen = url.searchParams.get('gen');
+  const gen = url.searchParams.get('showcase') ? null : url.searchParams.get('gen');
 
   try {
     if (!gen || gen == '') {

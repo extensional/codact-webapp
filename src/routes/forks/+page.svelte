@@ -8,7 +8,7 @@
   
   export let data: PageData;
 
-  let gen = $page.url.searchParams.get('gen');
+  let gen = $page.url.searchParams.get('showcase') ? "" : $page.url.searchParams.get('gen');
 
   $: if (browser)
     window.mixpanel.track('forks.load', data);
@@ -34,9 +34,9 @@
         <a href="/?gen={interaction.gen}">
           <span class="title">{interaction.title}</span>
         </a>
-        <!-- <a href="/?gen={interaction.gen}">
+        <a href="/?gen={interaction.gen}">
           <span class="title-gen">{interaction.gen.slice(18)}</span>
-        </a> -->
+        </a>
       </div>
       <iframe
       title="Rendered Frame"

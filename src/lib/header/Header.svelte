@@ -6,9 +6,11 @@
 	
 	// THIS IS THE PATTERN
 	let gen = "";
-	$: if ($url || $page.url) 
+	let showcase = false;
+	$: if ($url || $page.url) {
 		gen = ($url ? $url : $page.url).searchParams.get('gen');
-
+		showcase = ($url ? $url : $page.url).searchParams.get('showcase');
+	}
 	let params = "";
 	$: params = gen ? `?gen=${gen}` : "";
 </script>
@@ -33,12 +35,12 @@
 				<a data-sveltekit-prefetch href="/{params}">edit</a>
 			</li>
 			{#if (params != "")}
-			<li class:active={$page.url.pathname === '/forks'}>
+			<li class:active={$page.url.pathname === '/forks' && !showcase}>
 				<a data-sveltekit-prefetch href="/forks{params}">forks</a>
 			</li>
 			{/if}
-			<li class:active={$page.url.pathname === '/forks' && params == ""}>
-				<a data-sveltekit-prefetch href="/forks">showcase</a>
+			<li class:active={$page.url.pathname === '/forks' && showcase}>
+				<a data-sveltekit-prefetch href="/forks{params}{params == "" ? '?' : '&'}showcase=true">showcase</a>
 			</li>
 			<li class:active={$page.url.pathname === '/about'}>
 				<a data-sveltekit-prefetch href="/about{params}">Readme</a>
@@ -51,7 +53,7 @@
 	</nav>
 
 	<div class="corner">
-		<!-- TODO put something else here? github link? -->
+		<a href="/{params}">{gen ? gen.slice(18).concat(' ') : ''}</a><!-- TODO put something else here? github link? -->
 	</div>
 </header>
 
@@ -62,7 +64,7 @@
 	}
 
 	.corner {
-		width: 3em;
+		width: 5em;
 		height: 3em;
 	}
 
@@ -72,6 +74,7 @@
 		justify-content: center;
 		width: 100%;
 		height: 100%;
+		color: grey;
 	}
 
 	.corner img {

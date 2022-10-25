@@ -111,7 +111,7 @@
     highlight: 
     <input input type="checkbox" class="highlight-checkbox" on:change={updateSpecial} bind:checked={highlight_checked} />
   {/if}
-  <span class="gen-part">{gen ? gen.slice(18).concat(' ') : ''}</span>[
+  <!-- <span class="gen-part">{gen ? gen.slice(18).concat(' ') : ''}</span>-->[ 
   <span
     class="title-part"
     contenteditable
