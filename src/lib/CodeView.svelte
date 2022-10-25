@@ -55,20 +55,13 @@
     const range = selectrange ?? { from: doclen, to:doclen} ;
     selectionStart = range.from;
     selectionEnd = range.to;
-    
-    console.log('selectionStart', selectionStart);
-    console.log('selectionEnd', selectionEnd);
   }
   onMount(() => {if (browser) addEventListener('mouseup', updateSelect);});
 
   export function updateKeyDownSelect(e: any) {
     if(allowedKeys.includes(e.key)){
-      const doclen = myView.state.doc.length;
-      const selectrange = myView.state.selection.ranges?.at(-1);
-      const range = selectrange ?? { from: doclen, to:doclen} ;
-      selectionStart = range.from;
-      selectionEnd = range.to;
-    }else{
+      updateSelect();
+    } else {
       const editorElement = document.getElementsByClassName("left-column");
       editorElement[0].classList.add("illegal-key");
       setTimeout(() => editorElement[0].classList.remove("illegal-key"), 100);

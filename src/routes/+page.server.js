@@ -49,9 +49,6 @@ export const actions = {
     const selectionStart = parseInt(form.get('selectionStart')?.toString() ?? '0');
     const selectionEnd = parseInt(form.get('selectionEnd')?.toString() ?? '0');
 
-    console.log('selectionStart', selectionStart);
-    console.log('selectionEnd', selectionEnd);
-
     const question = form.get('question')?.toString() ?? '';
     const gen = url.searchParams.get('gen') ?? '';
 
