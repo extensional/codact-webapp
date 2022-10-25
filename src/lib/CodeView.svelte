@@ -10,6 +10,7 @@
   import { defaultKeymap } from '@codemirror/commands';
   import { oneDark } from "@codemirror/theme-one-dark";
   import { allowedKeys } from "./util/allowedKeys";
+  import { browser } from '$app/environment';
 
   export let selectionStart = 0;
   export let selectionEnd = 0;
@@ -54,7 +55,12 @@
     const range = selectrange ?? { from: doclen, to:doclen} ;
     selectionStart = range.from;
     selectionEnd = range.to;
+    
+    console.log('selectionStart', selectionStart);
+    console.log('selectionEnd', selectionEnd);
   }
+  onMount(() => {if (browser) addEventListener('mouseup', updateSelect);});
+
   export function updateKeyDownSelect(e: any) {
     if(allowedKeys.includes(e.key)){
       const doclen = myView.state.doc.length;

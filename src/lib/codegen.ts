@@ -45,37 +45,37 @@ export async function updateTitle(gen, gencode) {
 
 export async function promptYesNo(question: string) {
   var prompty =
-    'Are these statements questions looking for knowledge (yes/no)?' +
-    '\n* "What is life?": yes' +
-    '\n* "Does this function have a variable?": yes' +
-    '\n* "can you change this function to add a cat?": no' +
-    '\n* "where are the bugs in this function": yes' +
-    '\n* "can we even?": yes' +
-    '\n* "could you add a method that absorbs ints?": no' +
-    '\n* "fuck I am here": yes' +
-    '\n* "would you like to do eating": yes' +
-    '\n* "please sort two variables": no' +
-    '\n* "write me a goo.": no' +
-    '\n* "why does this code have multiple lines": yes' +
-    '\n* "explain what this line does.": yes' +
-    '\n* "Show me any bugs": yes' +
-    '\n* "add a new line.": no' +
-    '\n* "can we open a thing": yes' +
-    '\n* "oh yeah hi.": yes' +
-    '\n* "would you implement a variable?": no' +
-    '\n* "tell me whats happening": yes' +
+    'Are these statements questions looking for knowledge (y/n)?' +
+    '\n* "What is life?": y' +
+    '\n* "Does this function have a variable?": y' +
+    '\n* "can you change this function to add a cat?": n' +
+    '\n* "where are the bugs in this function": y' +
+    '\n* "can we even?": y' +
+    '\n* "could you add a method that absorbs ints?": n' +
+    '\n* "fuck I am here": y' +
+    '\n* "would you like to do eating": y' +
+    '\n* "please sort two variables": n' +
+    '\n* "write me a goo.": n' +
+    '\n* "why does this code have multiple lines": y' +
+    '\n* "explain what this line does.": y' +
+    '\n* "Show me any bugs": y' +
+    '\n* "add a new line.": n' +
+    '\n* "can we open a thing": y' +
+    '\n* "oh yeah hi.": y' +
+    '\n* "would you implement a variable?": n' +
+    '\n* "tell me whats happening": y' +
     `\n* "${question}":`;
 
   const completion = await openai.createCompletion({
     model: 'text-davinci-002',
     temperature: 0.7,
-    max_tokens: 6,
+    max_tokens: 5,
     n: 1,
     prompt: prompty
   });
   const compl = completion.data.choices === undefined ? '' : completion.data.choices[0].text;
   const answer = compl === undefined ? '' : compl.toLowerCase();
-  return ['yes', 'cor', 'abs', 'def', 'sure'].some((a) => answer.includes(a) || a.includes(answer));
+  return ['y', 'yes', 'cor', 'abs', 'def', 'sure'].some((a) => answer.includes(a) || a.includes(answer));
 }
 
 export async function completionEdit({
