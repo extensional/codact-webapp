@@ -4,15 +4,30 @@
 	import { page } from '$app/stores';
     import { invalidateAll } from '$app/navigation';
 	
+	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
+
 	// THIS IS THE PATTERN
 	let gen = "";
 	let showcase = false;
 	$: if ($url || $page.url) {
 		gen = ($url ? $url : $page.url).searchParams.get('gen');
 		showcase = ($url ? $url : $page.url).searchParams.get('showcase');
+		if (browser)
+			document.body.style.cursor='default';
 	}
 	let params = "";
 	$: params = gen ? `?gen=${gen}` : "";
+
+	function mouseWait() {
+		document.body.style.cursor='wait'; 
+		return true;
+	}
+
+	
+    onMount(() => {
+		document.body.style.cursor='default';
+	});
 </script>
 
 <svelte:window on:popstate={(e) => invalidateAll()} />
@@ -29,21 +44,21 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			<li><a data-sveltekit-prefetch href="/">new</a></li>
+			<li><a data-sveltekit-prefetch href="/"  on:click={mouseWait}>new</a></li>
 			{#key url}
 			<li class:active={$page.url.pathname === '/'}>
-				<a data-sveltekit-prefetch href="/{params}">edit</a>
+				<a data-sveltekit-prefetch href="/{params}"  on:click={mouseWait}>edit</a>
 			</li>
 			{#if (params != "")}
 			<li class:active={$page.url.pathname === '/forks' && !showcase}>
-				<a data-sveltekit-prefetch href="/forks{params}">forks</a>
+				<a data-sveltekit-prefetch href="/forks{params}"  on:click={mouseWait}>forks</a>
 			</li>
 			{/if}
 			<li class:active={$page.url.pathname === '/forks' && showcase}>
-				<a data-sveltekit-prefetch href="/forks{params}{params == "" ? '?' : '&'}showcase=true">showcase</a>
+				<a data-sveltekit-prefetch href="/forks{params}{params == "" ? '?' : '&'}showcase=true"  on:click={mouseWait}>showcase</a>
 			</li>
 			<li class:active={$page.url.pathname === '/about'}>
-				<a data-sveltekit-prefetch href="/about{params}">Readme</a>
+				<a data-sveltekit-prefetch href="/about{params}" on:click={mouseWait}>Readme</a>
 			</li>
 			{/key}
 		</ul>
@@ -53,7 +68,7 @@
 	</nav>
 
 	<div class="corner">
-		<a href="/{params}">{gen ? gen.slice(18).concat(' ') : ''}</a><!-- TODO put something else here? github link? -->
+		<a href="/{params}" on:click={mouseWait}>{gen ? gen.slice(18).concat(' ') : ''}</a><!-- TODO put something else here? github link? -->
 	</div>
 </header>
 
