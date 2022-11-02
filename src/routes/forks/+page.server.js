@@ -31,7 +31,7 @@ export const load = async ({ params, locals, url }) => {
 
       return {
         interactions: recents.sort((a,b)=> value(a) - value(b)).slice(-20),
-        title: "Leaderboard",
+        title: "",
         question: ""
       };
     } else {

@@ -25,7 +25,7 @@
 </svelte:head>
 
 <div class="content">
-  <h1><span class="title-area"><span class="title">{data.title}</span> <span class="title-gen">{gen?.slice(18) ?? ""}</span></span></h1>
+  <h1><span class="title-area"><span class="title">{data.title}</span></span></h1>
   <div class="interactions-display">
 
     {#each data.interactions as interaction (interaction.gen)}
@@ -51,26 +51,14 @@
 
 <style>  
 
-  .interaction-info .prompt {
-    color: #A2C799;
-    width: 15px;
-  }
-
-  .interaction-info .question {
-    color: white;
-    float: right;
-    text-align: left;
-    width: 215px;    
-  }
-
   .interaction-info .title {
-    color: pink;
+    color: var(--secondary-color);;
     width: 100px;
   }
   .interaction-info .title-gen {
     float:right;
     text-align: right;
-    color: grey;
+    color: var(--tertiary-color);
     width: 50px;
   }
   .interaction-info .title-gen:hover {
@@ -115,12 +103,8 @@
   .title-area {
     color: var(--secondary-color);
   }
-
-  .title-area .title-gen {
-    color: var(--tertiary-color);
-  }
-
+  
   .title-area .title {
-    color: white;
+    color: var(--primary-color);
   }
 </style>

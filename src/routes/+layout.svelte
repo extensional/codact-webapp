@@ -34,8 +34,4 @@
     align-items: center;
   }
 
-  footer a {
-    font-weight: bold;
-  }
-
 </style>

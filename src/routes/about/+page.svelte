@@ -38,6 +38,13 @@
 	.content {
 		width: 100%;
 		max-width: var(--column-width);
-		margin: var(--column-margin-top) auto 0 auto;
+		margin: var(--column-margin-top) auto 0 auto;		
 	}
+	.content h1 {
+		color: var(--primary-color);
+	}
+	.content p {
+		color: var(--primary-color);
+	}
+
 </style>

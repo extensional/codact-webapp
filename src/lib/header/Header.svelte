@@ -89,7 +89,7 @@
 		justify-content: center;
 		width: 100%;
 		height: 100%;
-		color: grey;
+		color: var(--tertiary-color);
 	}
 
 	.corner img {
