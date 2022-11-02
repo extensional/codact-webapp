@@ -113,11 +113,11 @@
   }
 
   .title-area {
-    color: pink;
+    color: var(--secondary-color);
   }
 
   .title-area .title-gen {
-    color: gray;
+    color: var(--tertiary-color);
   }
 
   .title-area .title {

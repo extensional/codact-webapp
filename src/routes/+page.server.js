@@ -131,6 +131,7 @@ async function getCodeAndAnswer(recent, selectionStart, selectionEnd, q) {
 
     return { newCode, answer };
   } catch (e) {
+    console.log("Error:", e)
     return { newCode: code, answer: "Appologies, our servers are currently overloaded.  Try again tomorrow!" };
   }
 }

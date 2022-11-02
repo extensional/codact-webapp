@@ -200,11 +200,11 @@
     align-self: end;
     text-align: right;
     width: 400px;
-    color: pink;
+    color: var(--tertiary-color);
   }
 
   .gen-title span {
-    color: lightgray;
+    color: var(--secondary-color);
   }
 
   .gen-title span.title-part:focus-visible {
@@ -227,18 +227,6 @@
     background: rgba(255, 255, 255, 0);
   }
 
-  .new-link-area {
-    text-align: right;
-    font-size: small;
-  }
-
-  .new-link {
-    height: 20px;
-    color: #bbb;
-    background-color: #333;
-    padding: 4px;
-    border-radius: 2px;
-  }
 
   .mainarea {
     width: 100%;
@@ -260,7 +248,7 @@
   }
 
   .chat {
-    border: 2px solid var(--beep-color) !important;
+    border: 2px inset var(--beep-color) !important;
     border-radius: 0px;
     background-color: var(--primary-color);
     padding: 10px;
@@ -285,8 +273,18 @@
     overflow: auto;
     border-radius: 0px;
     margin-right: 5px;
-    border: var(--beep-color) 2px solid;
+    border: var(--beep-color) 2px inset;
   }
+
+
+.render {
+  height: 99%;
+  margin-top: 10px;
+  float: right;
+  border: var(--beep-color) 2px inset;
+  border-radius: 0px;
+  background-color: white;
+}
 
   @media (max-width: 720px){
     .mainarea{

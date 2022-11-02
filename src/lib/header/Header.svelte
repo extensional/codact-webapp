@@ -30,7 +30,7 @@
 	});
 </script>
 
-<svelte:window on:popstate={(e) => invalidateAll()} />
+<svelte:window on:popstate={(e) => invalidateAll() } />
 
 <header>
 	<div class="corner">
@@ -101,7 +101,7 @@
 	nav {
 		display: flex;
 		justify-content: center;
-		--background: rgba(255, 255, 255, 0.1);
+		--background: var(--nav-color);
 	}
 
 	svg {

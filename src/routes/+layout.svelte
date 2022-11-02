@@ -12,7 +12,7 @@
 </main>
 
 <footer>
-  <p>Powered by <a href="https://extensional.ai">extensional.ai</a></p>
+  <!-- <p>Powered by <a href="https://extensional.ai">extensional.ai</a></p> -->
 </footer>
 
 <style>

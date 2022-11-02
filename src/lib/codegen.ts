@@ -39,10 +39,6 @@ export async function answer({ code, selection, q }: QuestionInput) {
   return compl === undefined ? '' : compl;
 }
 
-export async function updateTitle(gen, gencode) {
-  return "hoi";
-}
-
 export async function promptYesNo(question: string) {
   var prompty =
     'Are these statements questions looking for knowledge (y/n)?' +
@@ -85,6 +81,21 @@ export async function completionEdit({
   selectionEnd,
   q
 }: QuestionInput) {
+  let completions;
+  if (selection.length == 0) {
+    
+    const prompt = `/* This file is english javascript code for modifying a canvas */${code}\n/* begin section: ${q} */`;
+  
+    completions = await openai.createCompletion({
+      model: 'code-davinci-002',
+      temperature: 0.9,
+      max_tokens: 500,
+      n: 1,
+      prompt,
+      suffix: `\n/* end section: ${q} */`
+    });
+  } else {
+
   const prompt =
     (code.length > 0
       ? 'Given the following javascript code:\n> ' + code.replace('\n', '\n> ') + '\n'
@@ -94,21 +105,21 @@ export async function completionEdit({
         selection.replace('\n', '\n> ') +
         '\n'
       : '') +
-    `please write code in response to "${q}":`;
+    `without duplicating any code, write code in response to "${q}":`;
 
-  const completions = await openai.createCompletion({
+  completions = await openai.createCompletion({
     model: 'text-davinci-002',
     temperature: 1,
     max_tokens: 500,
     n: 1,
     prompt
   });
-
+  }
   return completions.data.choices
     ?.map((sugg) => sugg.text)
     .filter((sugg) => sugg != undefined)
     .map((sugg) => {
-      sugg = sugg === undefined ? '' : sugg;
+      sugg = sugg === undefined ? '' : selection.length == 0 ? '\n'+sugg : sugg;
       if (sugg.length > 0)
         sugg = sugg.slice(sugg[0] == '\n' ? 1 : sugg[1] == '\n' ? 2 : 0, sugg.length);
       //console.log("sugg1: ", sugg);
