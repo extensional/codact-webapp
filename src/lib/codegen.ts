@@ -82,7 +82,7 @@ export async function completionEdit({
   q
 }: QuestionInput) {
   let completions;
-  if (selection.length == 0) {
+  if (false) { // if (selection.length == 0) {
     
     const prompt = `/* This file is english javascript code for modifying a canvas */${code}\n/* begin section: ${q} */`;
   
@@ -123,7 +123,7 @@ export async function completionEdit({
       if (sugg.length > 0)
         sugg = sugg.slice(sugg[0] == '\n' ? 1 : sugg[1] == '\n' ? 2 : 0, sugg.length);
       //console.log("sugg1: ", sugg);
-      sugg = sugg.replace('\n> ', '\n').replace('\n>', '\n');
+      sugg = sugg.replace('\n> ', '\n').replace('\n>', '\n').replace('\n > ', '\n').replace('\n >', '\n').replace('\n  > ', '\n').replace('\n  >', '\n');
       //console.log("sugg2: ", sugg);
       if (sugg.length > 0 && sugg[0] == '>') {
         sugg = sugg.slice(1);
