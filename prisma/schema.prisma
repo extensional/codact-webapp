@@ -12,14 +12,15 @@ datasource db {
 
 
 model Interaction {
-  gen        String    @default(cuid()) @id
-  stamp     Int        @default(autoincrement())
-  title     String     @default("Untitled")
-  created   DateTime   @default(now())
-  debug     Boolean    @default(true)
-  highlight     Boolean    @default(false)
-  question  String
-  answer    String
+  gen        String     @default(cuid()) @id
+  stamp      Int        @default(autoincrement())
+  title      String     @default("Untitled")
+  created    DateTime   @default(now())
+  debug      Boolean    @default(true)
+  highlight  Boolean    @default(false)
+  useContext Boolean    @default(true)
+  question   String
+  answer     String
   selectionStart Int
   selectionEnd   Int
   code      String

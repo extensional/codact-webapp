@@ -16,6 +16,7 @@ export const load = async ({ params, locals, url }) => {
     return {
       interactions: [],
       highlight: false,
+      useContext: true,
       title: 'untitled'
     };
   }
@@ -34,6 +35,7 @@ export const load = async ({ params, locals, url }) => {
       interactions: recent.history.concat([recent]),
       generatedCode: recent.code,
       highlight: recent.highlight,
+      useContext: recent.useContext,
       title: recent.title
     };
   } catch (e) {
@@ -48,7 +50,9 @@ export const actions = {
 
     const selectionStart = parseInt(form.get('selectionStart')?.toString() ?? '0');
     const selectionEnd = parseInt(form.get('selectionEnd')?.toString() ?? '0');
-
+    const useContext = JSON.parse(form.get('useContext')?.toString() ?? 'true');
+    console.log("USE CONTEXT: ", useContext);
+    
     const question = form.get('question')?.toString() ?? '';
     const gen = url.searchParams.get('gen') ?? '';
 
@@ -67,12 +71,13 @@ export const actions = {
       : null;
 
     // comment to use OpenAI in dev
-    const { newCode, answer } = false ? { newCode: recent?.code ?? startCode, answer : `answer ${gen} - ${question}`} : 
+    const { newCode, answer } = dev ? { newCode: recent?.code ?? startCode, answer : `answer ${gen} - ${question}`} : 
       await getCodeAndAnswer(
         recent,
         selectionStart,
         selectionEnd,
-        question
+        question,
+        useContext,
       );
 
     const newintr = await prisma.interaction.create({
@@ -81,6 +86,7 @@ export const actions = {
         answer,
         selectionStart,
         selectionEnd,
+        useContext,
         debug: dev, 
         code: newCode,
         title: form.get('title')?.toString() ?? 'untitled',
@@ -109,7 +115,7 @@ function replaceRange(s, start, end, substitute) {
   return s.substring(0, start) + substitute + s.substring(end, s.length);
 }
 
-async function getCodeAndAnswer(recent, selectionStart, selectionEnd, q) {
+async function getCodeAndAnswer(recent, selectionStart, selectionEnd, q, useContext) {
 
   const selection = recent?.code.slice(selectionStart, selectionEnd) || '';
 
@@ -119,7 +125,7 @@ async function getCodeAndAnswer(recent, selectionStart, selectionEnd, q) {
 
     let answer;
     let newCode;
-    const setup = { code, selection, selectionStart, selectionEnd, q };
+    const setup = { code : (useContext ? code : ""), selection, selectionStart, selectionEnd, q };
     if (isInfo) {
       answer = await api.answer(setup);
       newCode = code;

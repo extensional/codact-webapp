@@ -111,6 +111,9 @@
     highlight: 
     <input input type="checkbox" class="highlight-checkbox" on:change={updateSpecial} bind:checked={highlight_checked} />
   {/if}
+
+  use context: 
+  <input input type="checkbox" class="useContext-checkbox" bind:checked={data.useContext} />
   <!-- <span class="gen-part">{gen ? gen.slice(18).concat(' ') : ''}</span>-->[ 
   <span
     class="title-part"
@@ -163,6 +166,7 @@
           <input type="hidden" name="selectionEnd" value={selectionEnd.toString()} />
           <input type="hidden" name="selection" value="" />
           <input type="hidden" name="title" bind:value={data.title} />
+          <input type="hidden" name="useContext" bind:value={data.useContext} />
           >
           <input
             id="question"
