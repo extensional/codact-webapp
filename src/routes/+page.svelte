@@ -102,8 +102,8 @@
 />
 
 <svelte:head>
-  <title>Codact - {data.title}</title>
-  <meta name="description" content="Codact: interactive AI coding" />
+  <title>LTSPK - {data.title}</title>
+  <meta name="description" content="LeetSpeak: Exploring AGI" />
 </svelte:head>
 
 <div class="gen-title">

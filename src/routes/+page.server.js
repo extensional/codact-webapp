@@ -71,7 +71,7 @@ export const actions = {
       : null;
 
     // comment to use OpenAI in dev
-    const { newCode, answer } = dev ? { newCode: recent?.code ?? startCode, answer : `answer ${gen} - ${question}`} : 
+    const { newCode, answer } = false ? { newCode: recent?.code ?? startCode, answer : `answer ${gen} - ${question}`} : 
       await getCodeAndAnswer(
         recent,
         selectionStart,

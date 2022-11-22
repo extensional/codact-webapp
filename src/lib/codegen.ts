@@ -82,7 +82,26 @@ export async function completionEdit({
   q
 }: QuestionInput) {
   let completions;
-  if (false) { // if (selection.length == 0) {
+  if (true) {
+
+    const prompt = `/* This file is english javascript code for modifying a canvas */${code}\n/* begin section: ${q} */`;
+  
+    completions = await openai.createEdit({
+      model: 'text-davinci-002',
+      temperature: 0.9,
+      n: 1,
+      instruction: prompt,
+      input: selection + new Array(500).join(' ')
+    });
+    console.log("COMPLETIONS:", completions);
+    return completions.data.choices
+      ?.map((sugg) => sugg.text)
+      .filter((sugg) => sugg != undefined)
+      .map((sugg) => {
+        return sugg === undefined ? '' : sugg.trim();
+      });
+
+  } else if (false) { // if (selection.length == 0) {
     
     const prompt = `/* This file is english javascript code for modifying a canvas */${code}\n/* begin section: ${q} */`;
   
@@ -96,24 +115,24 @@ export async function completionEdit({
     });
   } else {
 
-  const prompt =
-    (code.length > 0
-      ? 'Given the following javascript code:\n> ' + code.replace('\n', '\n> ') + '\n'
-      : '') +
-    (selection.length > 0
-      ? `Consider the following snippet from ${selectionStart}-${selectionEnd}:\n> ` +
-        selection.replace('\n', '\n> ') +
-        '\n'
-      : '') +
-    `without duplicating any code, write code in response to "${q}":`;
+    const prompt =
+      (code.length > 0
+        ? 'Given the following javascript code:\n> ' + code.replace('\n', '\n> ') + '\n'
+        : '') +
+      (selection.length > 0
+        ? `Consider the following snippet from ${selectionStart}-${selectionEnd}:\n> ` +
+          selection.replace('\n', '\n> ') +
+          '\n'
+        : '') +
+      `without duplicating any code, write code in response to "${q}":`;
 
-  completions = await openai.createCompletion({
-    model: 'text-davinci-002',
-    temperature: 1,
-    max_tokens: 500,
-    n: 1,
-    prompt
-  });
+    completions = await openai.createCompletion({
+      model: 'text-davinci-002',
+      temperature: 1,
+      max_tokens: 500,
+      n: 1,
+      prompt
+    });
   }
   return completions.data.choices
     ?.map((sugg) => sugg.text)

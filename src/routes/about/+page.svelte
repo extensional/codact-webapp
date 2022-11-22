@@ -7,20 +7,20 @@
 </script>
 
 <svelte:head>
-	<title>Codact README</title>
-	<meta name="description" content="About codact" />
+	<title>LTSPK README</title>
+	<meta name="description" content="About LeetSpeak" />
 </svelte:head>
 
 <div class="content">
-	<h1>Codact: Interactive AI Programming</h1>
+	<h1>LeetSpeak: Exploring Artificial Generative Interactivity (AGI) </h1>
 
 	<p>
-		With codact, you write code by interacting with an AI.   This is an entirely new way to program, 
+		With LeetSpeak, you write code by interacting with an AI.   This is an entirely new way to program, 
 		and there are many possible uses.  Try to create entire apps all in one go, find bugs in apps its generated, modify code you've created, 
 		fork and share your coding conversations.
 	</p>
 
-	<h1>Using Codact</h1>
+	<h1>Using LeetSpeak</h1>
 	<p> 1. Select where you want to insert code, or select what code you want modified. </p>
 	<p> 2. Tell codact what you want to do, create, or know. </p>
 	<p> 3. Click permalink to copy a link to a point in the code conversation. </p>

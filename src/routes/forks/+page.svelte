@@ -21,7 +21,7 @@
 
 <svelte:head>
   <title>Forks - {data.title}</title>
-  <meta name="description" content="About codact" />
+  <meta name="description" content="ltspk showcase" />
 </svelte:head>
 
 <div class="content">
