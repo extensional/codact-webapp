@@ -12,7 +12,7 @@
 </svelte:head>
 
 <div class="content">
-	<h1>LeetSpeak: Exploring Artificial Generative Interactivity (AGI) </h1>
+	<h1>Exploring Artificial Generative Interactivity (AGI) </h1>
 
 	<p>
 		With LeetSpeak, you write code by interacting with an AI.   This is an entirely new way to program, 
