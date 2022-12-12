@@ -23,7 +23,7 @@
         <!-- <a class="fork-link" target="_blank" href="/?gen={interaction.gen}#!">copy permalink</a> | -->
         {/if}
         <a class="fork-link" href="/forks?gen={interaction.gen}">forks</a> |
-        <span class="fork-link" onclick="navigator.clipboard.writeText(`https://codact.dev/?gen={interaction.gen}`)">copy url</span>
+        <span class="fork-link" onclick="navigator.clipboard.writeText(`https://leetspeak.com/?gen={interaction.gen}`)">copy url</span>
         </span>
       </div>
     </div>

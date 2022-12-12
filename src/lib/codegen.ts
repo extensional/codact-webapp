@@ -29,7 +29,7 @@ export async function answer({ code, selection, q }: QuestionInput) {
     '":\n';
 
   const completion = await openai.createCompletion({
-    model: 'text-davinci-002',
+    model: 'text-davinci-003',
     temperature: 1,
     max_tokens: 500,
     n: 1,
@@ -63,7 +63,7 @@ export async function promptYesNo(question: string) {
     `\n* "${question}":`;
 
   const completion = await openai.createCompletion({
-    model: 'text-davinci-002',
+    model: 'text-davinci-003',
     temperature: 0.7,
     max_tokens: 5,
     n: 1,
@@ -82,12 +82,12 @@ export async function completionEdit({
   q
 }: QuestionInput) {
   let completions;
-  if (true) {
+  if (false) {
 
     const prompt = `/* This file is english javascript code for modifying a canvas */${code}\n/* begin section: ${q} */`;
   
     completions = await openai.createEdit({
-      model: 'text-davinci-002',
+      model: 'text-davinci-003',
       temperature: 0.9,
       n: 1,
       instruction: prompt,
@@ -106,7 +106,7 @@ export async function completionEdit({
     const prompt = `/* This file is english javascript code for modifying a canvas */${code}\n/* begin section: ${q} */`;
   
     completions = await openai.createCompletion({
-      model: 'code-davinci-002',
+      model: 'code-davinci-003',
       temperature: 0.9,
       max_tokens: 500,
       n: 1,
@@ -127,7 +127,7 @@ export async function completionEdit({
       `without duplicating any code, write code in response to "${q}":`;
 
     completions = await openai.createCompletion({
-      model: 'text-davinci-002',
+      model: 'text-davinci-003',
       temperature: 1,
       max_tokens: 500,
       n: 1,
